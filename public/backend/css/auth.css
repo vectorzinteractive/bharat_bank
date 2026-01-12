@@ -1,0 +1,118 @@
+.login-wrapper {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loginform {
+    background-color: var(--white);
+    width: 350px;
+    padding: 35px;
+    margin: 0 auto;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0px 3px 10px #00000017;
+    border-radius: 14px;
+}
+.login-logo {
+    width: 150px;
+    margin: 0 auto 30px;
+}
+.login-logo img {
+    width: 100%;
+}
+.inputicon {
+    position: relative;
+}
+.form-group {
+    margin-top: .75rem;
+}
+.form-group input, .form-group textarea, select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #cbd5e199;
+    border-radius: .375rem;
+    padding: .5rem .75rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    color: #475569;
+    width: 100%;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);
+}
+.inputicon input {
+    padding: .5rem .75rem .5rem 2rem;
+}
+.inputicon span {
+    position: absolute;
+    left: 8px;
+    top: 10px;
+}
+.inputicon span img, .inputicon span i {
+    width: 1rem;
+}
+.loginform form h5 {
+    font-size: 0.9rem;
+    line-height: 1.1;
+    color: rgb(100 116 139);
+    font-weight: 400;
+}
+.loginform h5 a, .loginform h4 {
+    color: var(--primary);
+    margin-top: 14px;
+    display: inline-block;
+}
+.loginform .btns-row {
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+    padding: .75rem 1rem;
+    margin-top: 10px;
+}
+.button {
+    font-size: .875rem;
+    line-height: 1.25rem;
+    padding: .5rem 1.75rem;
+    border-radius: 9999px;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);
+}
+.large-btn{
+    padding: .5rem 2.75rem;
+}
+.small-btn{
+    padding: .5rem 2.75rem;
+}
+.primary-btn {
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--white);
+}
+.border-btn {
+    background-color: transparent;
+    border: 1px solid #0d5a5c;
+    color: var(--primary);
+}
+.loginform h4 {
+    font-size: 1.1rem;
+    line-height: 1.1;
+    font-weight: 400;
+}
+.btn-checkbox{
+    margin-right: 10px;
+
+}
+
+.inputicon span.hideshow-icon {
+    right: 15px;
+    left: auto;
+    cursor: pointer;
+    /* width: 100%; */
+    text-align: right;
+}
+
+.inputicon span.hideshow-icon img {
+    width: 14px;
+}

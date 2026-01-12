@@ -1,0 +1,1811 @@
+/*
+* -------------------------------------------------------------------
+* Project: Vectorz CSS Style Guide
+* Author: Vectorz Interactive
+* Date: May 31, 2025
+* Description: Standard CSS Style Guide
+* -------------------------------------------------------------------
+*/
+
+/*
+* ===================================================================
+* Table of Contents
+* ===================================================================
+*
+* 1. Global Variables
+* 1.1 Colors
+* 1.2 Typography
+* 1.3 Spacing
+* 1.4 Breakpoints
+*
+* 2. Base Styles
+* 2.1 Root
+* 2.2 Box Sizing
+* 2.3 Body
+* 2.4 Typography (General)
+*
+* 3. HTML Elements
+* 3.1 Headings (h1 - h6)
+* 3.2 Paragraph (p)
+* 3.3 Links (a)
+* 3.4 Lists (ul, ol, li)
+* 3.5 Definition List (dl, dt, dd)
+* 3.6 Blockquote
+* 3.7 Pre & Code
+* 3.8 Horizontal Rule (hr)
+* 3.9 Image (img)
+* 3.10 Figure & Figcaption
+* 3.11 Table (table, thead, tbody, tr, th, td, caption)
+* 3.12 Form Elements (form, label, input, textarea, button, select, option, fieldset, legend)
+* 3.13 Details & Summary
+* 3.14 Mark
+* 3.15 Abbreviation (abbr)
+* 3.16 Address
+* 3.17 Cite
+* 3.18 Small
+* 3.19 Strong & Bold (strong, b)
+* 3.20 Emphasis & Italics (em, i)
+* 3.21 Subscript & Superscript (sub, sup)
+* 3.22 Delete & Strikethrough (del, s)
+* 3.23 Insert (ins)
+*
+* 4. Utility Classes (vi-*)
+* 4.1 Text Alignment
+* 4.2 Display
+* 4.3 Visibility
+* 4.4 Float & Clear
+* 4.5 Margin & Padding
+* 4.6 Borders
+* 4.7 Width & Height
+* 4.8 Position
+* 4.9 Cursor
+* 4.10 Others
+*
+* 5. Media Queries
+* 5.1 Small Devices (320px - 575px)
+* 5.2 Medium Devices (576px - 767px)
+* 5.3 Large Devices (768px - 991px)
+* 5.4 Extra-Large Devices (992px - 1199px)
+* 5.5 XXL Devices (1200px - 1399px)
+* 5.6 XXXL Devices (1400px - 1919px)
+* 5.7 Ultra-Wide Devices (1920px and above)
+*
+* 6. Print Styles
+*
+* ===================================================================
+*/
+
+/* ===================================================================
+* 1. Global Variables
+* =================================================================== */
+
+:root {
+  /* 1.1 Colors */
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-accent: #ffc107;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+  --color-light: #f8f9fa;
+  --color-dark: #343a40;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-gray-100: #f8f9fa;
+  --color-gray-200: #e9ecef;
+  --color-gray-300: #dee2e6;
+  --color-gray-400: #ced4da;
+  --color-gray-500: #adb5bd;
+  --color-gray-600: #6c757d;
+  --color-gray-700: #495057;
+  --color-gray-800: #343a40;
+  --color-gray-900: #212529;
+
+  /* 1.2 Typography */
+  --font-family-base: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-family-heading: var(--vi-vi-font-family-base);
+
+  --vi-font-size-xxs: 0.625rem; /* 10px */
+  --vi-font-size-xs: 0.75rem;    /* 12px */
+  --vi-font-size-sm: 0.875rem;   /* 14px */
+  --vi-font-size-base: 1rem;     /* 16px (body default) */
+  --vi-font-size-lg: 1.125rem;   /* 18px */
+  --vi-font-size-xl: 1.25rem;    /* 20px */
+  --vi-font-size-h6: 1rem;
+  --vi-font-size-h5: 1.25rem;
+  --vi-font-size-h4: 1.5rem;
+  --vi-font-size-h3: 1.75rem;
+  --vi-font-size-h2: 2rem;
+  --vi-font-size-h1: 2.5rem;
+  --vi-font-size-xxl: 3rem;
+  --vi-font-size-xxxl: 3.5rem;
+
+  --vi-line-height-base: 1.5;
+  --vi-font-weight-base: 400;
+  --vi-font-weight-bold: 700;
+
+  /* 1.3 Spacing */
+  --vi-spacing-xs: 0.25rem;
+  /* 4px */
+  --vi-spacing-sm: 0.5rem;
+  /* 8px */
+  --vi-spacing-md: 1rem;
+  /* 16px */
+  --vi-spacing-lg: 1.5rem;
+  /* 24px */
+  --vi-spacing-xl: 2rem;
+  /* 32px */
+  --vi-spacing-xxl: 3rem;
+  /* 48px */
+
+  /* 1.4 Breakpoints */
+  --vi-breakpoint-xs: 320px;
+  --vi-breakpoint-sm: 576px;
+  --vi-breakpoint-md: 768px;
+  --vi-breakpoint-lg: 992px;
+  --vi-breakpoint-xl: 1200px;
+  --vi-breakpoint-xxl: 1400px;
+  --vi-breakpoint-xxxl: 1920px;
+}
+
+/* ===================================================================
+* 2. Base Styles
+* =================================================================== */
+
+/* 2.1 Root */
+:root {
+  scroll-behavior: smooth;
+}
+
+/* 2.2 Box Sizing */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/* 2.3 Body */
+body {
+  font-family: var(--vi-font-family-base);
+  font-size: var(--vi-font-size-base);
+  line-height: var(--vi-line-height-base);
+  font-weight: var(--vi-font-weight-base);
+  color: var(--vi-color-dark);
+  background-color: var(--vi-color-white);
+  margin: 0;
+}
+
+/* 2.4 Typography (General) */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--vi-font-family-heading);
+  font-weight: var(--vi-font-weight-bold);
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: var(--vi-spacing-md);
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--vi-spacing-md);
+}
+
+/* ===================================================================
+* 3. HTML Elements
+* =================================================================== */
+
+/* 3.1 Headings (h1 - h6) */
+h1 {
+  font-size: var(--vi-font-size-h1);
+}
+
+h2 {
+  font-size: var(--vi-font-size-h2);
+}
+
+h3 {
+  font-size: var(--vi-font-size-h3);
+}
+
+h4 {
+  font-size: var(--vi-font-size-h4);
+}
+
+h5 {
+  font-size: var(--vi-font-size-h5);
+}
+
+h6 {
+  font-size: var(--vi-font-size-h6);
+}
+
+/* 3.2 Paragraph (p) */
+p {
+  /* Inherits base styles */
+}
+
+/* 3.3 Links (a) */
+a {
+  color: var(--vi-color-primary);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+a:hover {
+  color: darken(var(--vi-color-primary), 15%);
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 0;
+  /* Add focus styles if needed */
+}
+
+/* 3.4 Lists (ul, ol, li) */
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: var(--vi-spacing-md);
+  padding-left: 2rem;
+}
+
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
+}
+
+/* li {
+  margin-bottom: calc(var(--vi-spacing-md) / 2);
+} */
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* 3.5 Definition List (dl, dt, dd) */
+dl {
+  margin-bottom: var(--vi-spacing-md);
+}
+
+dt {
+  font-weight: var(--vi-font-weight-bold);
+}
+
+dd {
+  margin-left: 0;
+  margin-bottom: calc(var(--vi-spacing-md) / 2);
+}
+
+/* 3.6 Blockquote */
+blockquote {
+  padding: var(--vi-spacing-md);
+  margin: 0 0 var(--vi-spacing-md);
+  font-size: var(--vi-font-size-lg);
+  font-style: italic;
+  border-left: 0.25rem solid var(--vi-color-gray-300);
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 3.7 Pre & Code */
+pre {
+  display: block;
+  padding: var(--vi-spacing-md);
+  margin: 0 0 var(--vi-spacing-md);
+  font-size: var(--vi-font-size-sm);
+  line-height: 1.4;
+  color: var(--vi-color-dark);
+  background-color: var(--vi-color-gray-100);
+  border-radius: 0.25rem;
+  overflow: auto;
+}
+
+code {
+  font-size: var(--vi-font-size-sm);
+  color: var(--vi-color-danger);
+  background-color: var(--vi-color-gray-100);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+}
+
+pre code {
+  color: inherit;
+  background-color: transparent;
+  padding: 0;
+}
+
+/* 3.8 Horizontal Rule (hr) */
+hr {
+  margin-top: var(--vi-spacing-xl);
+  margin-bottom: var(--vi-spacing-xl);
+  border: 0;
+  border-top: 1px solid var(--vi-color-gray-300);
+}
+
+/* 3.9 Image (img) */
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+/* 3.10 Figure & Figcaption */
+figure {
+  margin: 0 0 var(--vi-spacing-md);
+}
+
+figcaption {
+  font-size: var(--vi-font-size-sm);
+  color: var(--vi-color-gray-600);
+  text-align: center;
+}
+
+/* 3.11 Table (table, thead, tbody, tr, th, td, caption) */
+table {
+  width: 100%;
+  margin-bottom: var(--vi-spacing-md);
+  color: inherit;
+  border-collapse: collapse;
+}
+
+caption {
+  padding-top: var(--vi-spacing-sm);
+  padding-bottom: var(--vi-spacing-sm);
+  color: var(--vi-color-gray-600);
+  text-align: left;
+}
+
+thead {
+  vertical-align: bottom;
+}
+
+th {
+  padding: var(--vi-spacing-sm);
+  text-align: left;
+  border-bottom: 2px solid var(--vi-color-gray-300);
+}
+
+tbody {
+  vertical-align: middle;
+}
+
+tr {
+  border-bottom: 1px solid var(--vi-color-gray-200);
+}
+
+tr:last-of-type {
+  border-bottom: 2px solid var(--vi-color-gray-300);
+}
+
+td {
+  padding: var(--vi-spacing-sm);
+}
+
+/* 3.12 Form Elements (form, label, input, textarea, button, select, option, fieldset, legend) */
+
+label {
+  display: inline-block;
+  margin-bottom: var(--vi-spacing-xs);
+  font-size: var(--vi-font-size-sm);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="number"],
+input[type="url"],
+input[type="tel"],
+input[type="search"],
+textarea,
+select {
+  display: block;
+  width: 100%;
+  padding: var(--vi-spacing-sm);
+  font-size: var(--vi-font-size-base);
+  line-height: var(--vi-vi-line-height-base);
+  color: var(--vi-color-dark);
+  background-color: var(--vi-color-white);
+  border: 1px solid var(--vi-color-gray-400);
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="number"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--vi-color-primary);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(var(--vi-color-primary-rgb, 0, 123, 255), 0.25);
+}
+
+textarea {
+  min-height: 5rem;
+}
+
+select {
+  appearance: none;
+  /* Remove default arrow */
+  background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" viewBox%3D"0 0 4 5"%3E%3Cpath fill%3D"%23343a40" d%3D"M2 0L0 2h4L2 0z"%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right var(--vi-spacing-sm) center;
+  background-size: 8px 10px;
+  padding-right: 2rem;
+}
+
+select::-ms-expand {
+  display: none;
+  /* For IE 11 */
+}
+
+option {
+  padding: var(--vi-spacing-sm);
+}
+
+button {
+  display: inline-block;
+  padding: var(--vi-spacing-sm) var(--vi-spacing-md);
+  font-size: var(--vi-font-size-base);
+  font-weight: var(--vi-font-weight-bold);
+  color: var(--vi-color-white);
+  background-color: var(--vi-color-primary);
+  border: 1px solid var(--vi-color-primary);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+button:hover {
+  /* background-color: darken(var(--primary), 10%);
+  border-color: darken(var(--primary), 12%); */
+  
+}
+
+button:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(var(--vi-color-primary-rgb, 0, 123, 255), 0.25);
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+  margin-right: var(--vi-spacing-xs);
+}
+
+fieldset {
+  padding: var(--vi-spacing-md);
+  margin: 0 0 var(--vi-spacing-md);
+  border: 1px solid var(--vi-color-gray-300);
+  border-radius: 0.25rem;
+}
+
+legend {
+  padding: 0 var(--vi-spacing-xs);
+  font-size: var(--vi-font-size-lg);
+  font-weight: var(--vi-font-weight-bold);
+  color: var(--vi-color-dark);
+}
+
+output {
+  display: inline-block;
+  padding: var(--vi-spacing-xs) var(--vi-spacing-sm);
+  background-color: var(--vi-color-gray-200);
+  border-radius: 0.25rem;
+  font-size: var(--vi-font-size-sm);
+  color: var(--vi-color-dark);
+}
+
+progress {
+  display: block;
+  width: 100%;
+  height: 1rem;
+  margin-bottom: var(--vi-spacing-md);
+  background-color: var(--vi-color-gray-200);
+  border-radius: 0.25rem;
+  overflow: hidden;
+  /* Ensure consistent appearance */
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--vi-color-gray-200);
+  border-radius: 0.25rem;
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--vi-color-primary);
+  border-radius: 0.25rem;
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--vi-color-primary);
+  border-radius: 0.25rem;
+}
+
+meter {
+  display: block;
+  width: 100%;
+  height: 1rem;
+  margin-bottom: var(--vi-spacing-md);
+  background-color: var(--vi-color-gray-200);
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+/* 3.13 Details & Summary */
+details {
+  margin-bottom: var(--vi-spacing-md);
+  border: 1px solid var(--vi-color-gray-300);
+  border-radius: 0.25rem;
+  padding: var(--vi-spacing-sm);
+}
+
+summary {
+  display: block;
+  /* Ensures it takes full width and allows custom styling */
+  cursor: pointer;
+  padding: var(--vi-spacing-xs) 0;
+  font-weight: var(--vi-font-weight-bold);
+  outline: none;
+  /* Remove default focus outline */
+}
+
+summary::marker,
+/* Standard */
+summary::-webkit-details-marker {
+  /* Chrome/Safari */
+  display: none;
+}
+
+summary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(var(--vi-color-primary-rgb, 0, 123, 255), 0.25);
+  border-radius: 0.25rem;
+  /* Apply focus shadow to summary */
+}
+
+details[open] summary {
+  border-bottom: 1px solid var(--vi-color-gray-200);
+  margin-bottom: var(--vi-spacing-sm);
+  padding-bottom: var(--vi-spacing-xs);
+}
+
+/* 3.14 Mark */
+mark {
+  background-color: var(--vi-color-accent);
+  padding: 0.2em 0.4em;
+  border-radius: 0.2em;
+}
+
+/* 3.15 Abbreviation (abbr) */
+abbr[title] {
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+/* 3.16 Address */
+address {
+  margin-bottom: var(--vi-spacing-md);
+  font-style: normal;
+  line-height: inherit;
+}
+
+/* 3.17 Cite */
+cite {
+  font-style: italic;
+}
+
+/* 3.18 Small */
+small {
+  font-size: 80%;
+  /* Relative to parent font size */
+}
+
+/* 3.19 Strong & Bold (strong, b) */
+strong,
+b {
+  font-weight: var(--vi-font-weight-bold);
+}
+
+/* 3.20 Emphasis & Italics (em, i) */
+em,
+i {
+  font-style: italic;
+}
+
+/* 3.21 Subscript & Superscript (sub, sup) */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* 3.22 Delete & Strikethrough (del, s) */
+del,
+s {
+  text-decoration: line-through;
+}
+
+/* 3.23 Insert (ins) */
+ins {
+  text-decoration: underline;
+}
+
+/* ===================================================================
+* 4. Utility Classes (vi-*)
+* =================================================================== */
+
+/* 4.1 Text Alignment */
+.vi-text-left {
+  text-align: left !important;
+}
+
+.vi-text-right {
+  text-align: right !important;
+}
+
+.vi-text-center {
+  text-align: center !important;
+}
+
+.vi-text-justify {
+  text-align: justify !important;
+}
+
+/* 4.2 Display */
+.vi-d-block {
+  display: block !important;
+}
+
+.vi-d-inline {
+  display: inline !important;
+}
+
+.vi-d-inline-block {
+  display: inline-block !important;
+}
+
+.vi-d-flex {
+  display: flex !important;
+}
+
+.vi-d-inline-flex {
+  display: inline-flex !important;
+}
+
+.vi-d-grid {
+  display: grid !important;
+}
+
+.vi-d-none {
+  display: none !important;
+}
+
+/* Flexbox Utilities */
+.vi-flex-row {
+  flex-direction: row !important;
+}
+
+.vi-flex-column {
+  flex-direction: column !important;
+}
+
+.vi-flex-wrap {
+  flex-wrap: wrap !important;
+}
+
+.vi-flex-nowrap {
+  flex-wrap: nowrap !important;
+}
+
+.vi-justify-content-start {
+  justify-content: flex-start !important;
+}
+
+.vi-justify-content-end {
+  justify-content: flex-end !important;
+}
+
+.vi-justify-content-center {
+  justify-content: center !important;
+}
+
+.vi-justify-content-between {
+  justify-content: space-between !important;
+}
+
+.vi-justify-content-around {
+  justify-content: space-around !important;
+}
+
+.vi-align-items-start {
+  align-items: flex-start !important;
+}
+
+.vi-align-items-end {
+  align-items: flex-end !important;
+}
+
+.vi-align-items-center {
+  align-items: center !important;
+}
+
+.vi-align-items-baseline {
+  align-items: baseline !important;
+}
+
+.vi-align-items-stretch {
+  align-items: stretch !important;
+}
+
+.vi-align-self-start {
+  align-self: flex-start !important;
+}
+
+.vi-align-self-end {
+  align-self: flex-end !important;
+}
+
+.vi-align-self-center {
+  align-self: center !important;
+}
+
+.vi-align-self-baseline {
+  align-self: baseline !important;
+}
+
+.vi-align-self-stretch {
+  align-self: stretch !important;
+}
+
+.vi-flex-grow-1 {
+  flex-grow: 1 !important;
+}
+
+.vi-flex-shrink-1 {
+  flex-shrink: 1 !important;
+}
+
+/* 4.3 Visibility */
+.vi-visible {
+  visibility: visible !important;
+}
+
+.vi-invisible {
+  visibility: hidden !important;
+}
+
+/* 4.4 Float & Clear */
+.vi-float-left {
+  float: left !important;
+}
+
+.vi-float-right {
+  float: right !important;
+}
+
+.vi-float-none {
+  float: none !important;
+}
+
+.vi-clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* 4.5 Margin & Padding */
+/* Margin */
+.vi-m-0 {
+  margin: 0 !important;
+}
+
+.vi-mt-0 {
+  margin-top: 0 !important;
+}
+
+.vi-mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.vi-ml-0 {
+  margin-left: 0 !important;
+}
+
+.vi-mr-0 {
+  margin-right: 0 !important;
+}
+
+.vi-mx-0 {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.vi-my-0 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.vi-m-xs {
+  margin: var(--vi-spacing-xs) !important;
+}
+
+.vi-mt-xs {
+  margin-top: var(--vi-spacing-xs) !important;
+}
+
+.vi-mb-xs {
+  margin-bottom: var(--vi-spacing-xs) !important;
+}
+
+.vi-ml-xs {
+  margin-left: var(--vi-spacing-xs) !important;
+}
+
+.vi-mr-xs {
+  margin-right: var(--vi-spacing-xs) !important;
+}
+
+.vi-mx-xs {
+  margin-left: var(--vi-spacing-xs) !important;
+  margin-right: var(--vi-spacing-xs) !important;
+}
+
+.vi-my-xs {
+  margin-top: var(--vi-spacing-xs) !important;
+  margin-bottom: var(--vi-spacing-xs) !important;
+}
+
+.vi-m-sm {
+  margin: var(--vi-spacing-sm) !important;
+}
+
+.vi-mt-sm {
+  margin-top: var(--vi-spacing-sm) !important;
+}
+
+.vi-mb-sm {
+  margin-bottom: var(--vi-spacing-sm) !important;
+}
+
+.vi-ml-sm {
+  margin-left: var(--vi-spacing-sm) !important;
+}
+
+.vi-mr-sm {
+  margin-right: var(--vi-spacing-sm) !important;
+}
+
+.vi-mx-sm {
+  margin-left: var(--vi-spacing-sm) !important;
+  margin-right: var(--vi-spacing-sm) !important;
+}
+
+.vi-my-sm {
+  margin-top: var(--vi-spacing-sm) !important;
+  margin-bottom: var(--vi-spacing-sm) !important;
+}
+
+.vi-m-md {
+  margin: var(--vi-spacing-md) !important;
+}
+
+.vi-mt-md {
+  margin-top: var(--vi-spacing-md) !important;
+}
+
+.vi-mb-md {
+  margin-bottom: var(--vi-spacing-md) !important;
+}
+
+.vi-ml-md {
+  margin-left: var(--vi-spacing-md) !important;
+}
+
+.vi-mr-md {
+  margin-right: var(--vi-spacing-md) !important;
+}
+
+.vi-mx-md {
+  margin-left: var(--vi-spacing-md) !important;
+  margin-right: var(--vi-spacing-md) !important;
+}
+
+.vi-my-md {
+  margin-top: var(--vi-spacing-md) !important;
+  margin-bottom: var(--vi-spacing-md) !important;
+}
+
+.vi-m-lg {
+  margin: var(--vi-spacing-lg) !important;
+}
+
+.vi-mt-lg {
+  margin-top: var(--vi-spacing-lg) !important;
+}
+
+.vi-mb-lg {
+  margin-bottom: var(--vi-spacing-lg) !important;
+}
+
+.vi-ml-lg {
+  margin-left: var(--vi-spacing-lg) !important;
+}
+
+.vi-mr-lg {
+  margin-right: var(--vi-spacing-lg) !important;
+}
+
+.vi-mx-lg {
+  margin-left: var(--vi-spacing-lg) !important;
+  margin-right: var(--vi-spacing-lg) !important;
+}
+
+.vi-my-lg {
+  margin-top: var(--vi-spacing-lg) !important;
+  margin-bottom: var(--vi-spacing-lg) !important;
+}
+
+.vi-m-xl {
+  margin: var(--vi-spacing-xl) !important;
+}
+
+.vi-mt-xl {
+  margin-top: var(--vi-spacing-xl) !important;
+}
+
+.vi-mb-xl {
+  margin-bottom: var(--vi-spacing-xl) !important;
+}
+
+.vi-ml-xl {
+  margin-left: var(--vi-spacing-xl) !important;
+}
+
+.vi-mr-xl {
+  margin-right: var(--vi-spacing-xl) !important;
+}
+
+.vi-mx-xl {
+  margin-left: var(--vi-spacing-xl) !important;
+  margin-right: var(--vi-spacing-xl) !important;
+}
+
+.vi-my-xl {
+  margin-top: var(--vi-spacing-xl) !important;
+  margin-bottom: var(--vi-spacing-xl) !important;
+}
+
+.vi-m-xxl {
+  margin: var(--vi-spacing-xxl) !important;
+}
+
+.vi-mt-xxl {
+  margin-top: var(--vi-spacing-xxl) !important;
+}
+
+.vi-mb-xxl {
+  margin-bottom: var(--vi-spacing-xxl) !important;
+}
+
+.vi-ml-xxl {
+  margin-left: var(--vi-spacing-xxl) !important;
+}
+
+.vi-mr-xxl {
+  margin-right: var(--vi-spacing-xxl) !important;
+}
+
+.vi-mx-xxl {
+  margin-left: var(--vi-spacing-xxl) !important;
+  margin-right: var(--vi-spacing-xxl) !important;
+}
+
+.vi-my-xxl {
+  margin-top: var(--vi-spacing-xxl) !important;
+  margin-bottom: var(--vi-spacing-xxl) !important;
+}
+
+/* Auto Margin */
+.vi-mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.vi-ml-auto {
+  margin-left: auto !important;
+}
+
+.vi-mr-auto {
+  margin-right: auto !important;
+}
+
+/* Padding */
+.vi-p-0 {
+  padding: 0 !important;
+}
+
+.vi-pt-0 {
+  padding-top: 0 !important;
+}
+
+.vi-pb-0 {
+  padding-bottom: 0 !important;
+}
+
+.vi-pl-0 {
+  padding-left: 0 !important;
+}
+
+.vi-pr-0 {
+  padding-right: 0 !important;
+}
+
+.vi-px-0 {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.vi-py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.vi-p-xs {
+  padding: var(--vi-spacing-xs) !important;
+}
+
+.vi-pt-xs {
+  padding-top: var(--vi-spacing-xs) !important;
+}
+
+.vi-pb-xs {
+  padding-bottom: var(--vi-spacing-xs) !important;
+}
+
+.vi-pl-xs {
+  padding-left: var(--vi-spacing-xs) !important;
+}
+
+.vi-pr-xs {
+  padding-right: var(--vi-spacing-xs) !important;
+}
+
+.vi-px-xs {
+  padding-left: var(--vi-spacing-xs) !important;
+  padding-right: var(--vi-spacing-xs) !important;
+}
+
+.vi-py-xs {
+  padding-top: var(--vi-spacing-xs) !important;
+  padding-bottom: var(--vi-spacing-xs) !important;
+}
+
+.vi-p-sm {
+  padding: var(--vi-spacing-sm) !important;
+}
+
+.vi-pt-sm {
+  padding-top: var(--vi-spacing-sm) !important;
+}
+
+.vi-pb-sm {
+  padding-bottom: var(--vi-spacing-sm) !important;
+}
+
+.vi-pl-sm {
+  padding-left: var(--vi-spacing-sm) !important;
+}
+
+.vi-pr-sm {
+  padding-right: var(--vi-spacing-sm) !important;
+}
+
+.vi-px-sm {
+  padding-left: var(--vi-spacing-sm) !important;
+  padding-right: var(--vi-spacing-sm) !important;
+}
+
+.vi-py-sm {
+  padding-top: var(--vi-spacing-sm) !important;
+  padding-bottom: var(--vi-spacing-sm) !important;
+}
+
+.vi-p-md {
+  padding: var(--vi-spacing-md) !important;
+}
+
+.vi-pt-md {
+  padding-top: var(--vi-spacing-md) !important;
+}
+
+.vi-pb-md {
+  padding-bottom: var(--vi-spacing-md) !important;
+}
+
+.vi-pl-md {
+  padding-left: var(--vi-spacing-md) !important;
+}
+
+.vi-pr-md {
+  padding-right: var(--vi-spacing-md) !important;
+}
+
+.vi-px-md {
+  padding-left: var(--vi-spacing-md) !important;
+  padding-right: var(--vi-spacing-md) !important;
+}
+
+.vi-py-md {
+  padding-top: var(--vi-spacing-md) !important;
+  padding-bottom: var(--vi-spacing-md) !important;
+}
+
+.vi-p-lg {
+  padding: var(--vi-spacing-lg) !important;
+}
+
+.vi-pt-lg {
+  padding-top: var(--vi-spacing-lg) !important;
+}
+
+.vi-pb-lg {
+  padding-bottom: var(--vi-spacing-lg) !important;
+}
+
+.vi-pl-lg {
+  padding-left: var(--vi-spacing-lg) !important;
+}
+
+.vi-pr-lg {
+  padding-right: var(--vi-spacing-lg) !important;
+}
+
+.vi-px-lg {
+  padding-left: var(--vi-spacing-lg) !important;
+  padding-right: var(--vi-spacing-lg) !important;
+}
+
+.vi-py-lg {
+  padding-top: var(--vi-spacing-lg) !important;
+  padding-bottom: var(--vi-spacing-lg) !important;
+}
+
+.vi-p-xl {
+  padding: var(--vi-spacing-xl) !important;
+}
+
+.vi-pt-xl {
+  padding-top: var(--vi-spacing-xl) !important;
+}
+
+.vi-pb-xl {
+  padding-bottom: var(--vi-spacing-xl) !important;
+}
+
+.vi-pl-xl {
+  padding-left: var(--vi-spacing-xl) !important;
+}
+
+.vi-pr-xl {
+  padding-right: var(--vi-spacing-xl) !important;
+}
+
+.vi-px-xl {
+  padding-left: var(--vi-spacing-xl) !important;
+  padding-right: var(--vi-spacing-xl) !important;
+}
+
+.vi-py-xl {
+  padding-top: var(--vi-spacing-xl) !important;
+  padding-bottom: var(--vi-spacing-xl) !important;
+}
+
+.vi-p-xxl {
+  padding: var(--vi-spacing-xxl) !important;
+}
+
+.vi-pt-xxl {
+  padding-top: var(--vi-spacing-xxl) !important;
+}
+
+.vi-pb-xxl {
+  padding-bottom: var(--vi-spacing-xxl) !important;
+}
+
+.vi-pl-xxl {
+  padding-left: var(--vi-spacing-xxl) !important;
+}
+
+.vi-pr-xxl {
+  padding-right: var(--vi-spacing-xxl) !important;
+}
+
+.vi-px-xxl {
+  padding-left: var(--vi-spacing-xxl) !important;
+  padding-right: var(--vi-spacing-xxl) !important;
+}
+
+.vi-py-xxl {
+  padding-top: var(--vi-spacing-xxl) !important;
+  padding-bottom: var(--vi-spacing-xxl) !important;
+}
+
+/* 4.6 Borders */
+.vi-border {
+  border: 1px solid var(--vi-color-gray-300) !important;
+}
+
+.vi-border-top {
+  border-top: 1px solid var(--vi-color-gray-300) !important;
+}
+
+.vi-border-bottom {
+  border-bottom: 1px solid var(--vi-color-gray-300) !important;
+}
+
+.vi-border-left {
+  border-left: 1px solid var(--vi-color-gray-300) !important;
+}
+
+.vi-border-right {
+  border-right: 1px solid var(--vi-color-gray-300) !important;
+}
+
+.vi-border-0 {
+  border: 0 !important;
+}
+
+.vi-border-radius {
+  border-radius: 0.25rem !important;
+}
+
+.vi-border-rounded-circle {
+  border-radius: 50% !important;
+}
+
+/* 4.7 Width & Height */
+.vi-w-25 {
+  width: 25% !important;
+}
+
+.vi-w-50 {
+  width: 50% !important;
+}
+
+.vi-w-75 {
+  width: 75% !important;
+}
+
+.vi-w-100 {
+  width: 100% !important;
+}
+
+.vi-h-25 {
+  height: 25% !important;
+}
+
+.vi-h-50 {
+  height: 50% !important;
+}
+
+.vi-h-75 {
+  height: 75% !important;
+}
+
+.vi-h-100 {
+  height: 100% !important;
+}
+
+.vi-max-w-100 {
+  max-width: 100% !important;
+}
+
+.vi-max-h-100 {
+  max-height: 100% !important;
+}
+
+/* 4.8 Position */
+.vi-position-static {
+  position: static !important;
+}
+
+.vi-position-relative {
+  position: relative !important;
+}
+
+.vi-position-absolute {
+  position: absolute !important;
+}
+
+.vi-position-fixed {
+  position: fixed !important;
+}
+
+.vi-position-sticky {
+  position: sticky !important;
+}
+
+/* 4.9 Cursor */
+.vi-cursor-pointer {
+  cursor: pointer !important;
+}
+
+.vi-cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+/* 4.10 Others */
+.vi-overflow-auto {
+  overflow: auto !important;
+}
+
+.vi-overflow-hidden {
+  overflow: hidden !important;
+}
+
+.vi-shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.vi-shadow {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.vi-shadow-lg {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.vi-rounded {
+  border-radius: 0.25rem !important;
+}
+
+.vi-rounded-top {
+  border-top-left-radius: 0.25rem !important;
+  border-top-right-radius: 0.25rem !important;
+}
+
+.vi-rounded-bottom {
+  border-bottom-left-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
+}
+
+.vi-rounded-left {
+  border-top-left-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
+}
+
+.vi-rounded-right {
+  border-top-right-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
+}
+
+.vi-text-primary {
+  color: var(--vi-color-primary) !important;
+}
+
+.vi-text-secondary {
+  color: var(--vi-color-secondary) !important;
+}
+
+.vi-text-success {
+  color: var(--vi-color-success) !important;
+}
+
+.vi-text-danger {
+  color: var(--vi-color-danger) !important;
+}
+
+.vi-text-warning {
+  color: var(--vi-color-warning) !important;
+}
+
+.vi-text-info {
+  color: var(--vi-color-info) !important;
+}
+
+.vi-text-light {
+  color: var(--vi-color-light) !important;
+}
+
+.vi-text-dark {
+  color: var(--vi-color-dark) !important;
+}
+
+.vi-text-white {
+  color: var(--vi-color-white) !important;
+}
+
+.vi-bg-primary {
+  background-color: var(--vi-color-primary) !important;
+}
+
+.vi-bg-secondary {
+  background-color: var(--vi-color-secondary) !important;
+}
+
+.vi-bg-success {
+  background-color: var(--vi-color-success) !important;
+}
+
+.vi-bg-danger {
+  background-color: var(--vi-color-danger) !important;
+}
+
+.vi-bg-warning {
+  background-color: var(--vi-color-warning) !important;
+}
+
+.vi-bg-info {
+  background-color: var(--vi-color-info) !important;
+}
+
+.vi-bg-light {
+  background-color: var(--vi-color-light) !important;
+}
+
+.vi-bg-dark {
+  background-color: var(--vi-color-dark) !important;
+}
+
+.vi-bg-white {
+  background-color: var(--vi-color-white) !important;
+}
+
+/* ==================================================================
+  Utility Classes (vi-*)
+================================================================== */
+
+/*
+  These are example utility classes. Add more as needed for common
+  styling patterns.
+*/
+
+/* Font Size Utilities */
+.vi-text-xxs { font-size: var(--vi-font-size-xxs); }
+.vi-text-xs { font-size: var(--vi-font-size-xs); }
+.vi-text-sm { font-size: var(--vi-font-size-sm); }
+.vi-text-base { font-size: var(--vi-font-size-base); }
+.vi-text-lg { font-size: var(--vi-font-size-lg); }
+.vi-text-xl { font-size: var(--vi-font-size-xl); }
+.vi-text-h6 { font-size: var(--vi-font-size-h6); }
+.vi-text-h5 { font-size: var(--vi-font-size-h5); }
+.vi-text-h4 { font-size: var(--vi-font-size-h4); }
+.vi-text-h3 { font-size: var(--vi-font-size-h3); }
+.vi-text-h2 { font-size: var(--vi-font-size-h2); }
+.vi-text-h1 { font-size: var(--vi-font-size-h1); }
+.vi-text-xxl { font-size: var(--vi-font-size-xxl); }
+.vi-text-xxxl { font-size: var(--vi-font-size-xxxl); }
+
+.vi-text-center {
+  text-align: center;
+}
+
+.vi-text-left {
+  text-align: left;
+}
+
+.vi-text-right {
+  text-align: right;
+}
+
+.vi-bold {
+  font-weight: bold;
+}
+
+.vi-italic {
+  font-style: italic;
+}
+
+.vi-uppercase {
+  text-transform: uppercase;
+}
+
+.vi-lowercase {
+  text-transform: lowercase;
+}
+
+.vi-capitalize {
+  text-transform: capitalize;
+}
+
+/* ===================================================================
+* 5. Media Queries
+* =================================================================== */
+
+/* 5.1 Small Devices (320px - 575px) */
+@media (min-width: var(--vi-vi-breakpoint-xs)) and (max-width: calc(var(--vi-vi-breakpoint-sm) - 1px)) {
+  :root {
+    --vi-font-size-base: 0.9375rem;
+    /* 15px */
+    --vi-font-size-h1: 2rem;
+    /* 32px */
+    --vi-font-size-h2: 1.75rem;
+    /* 28px */
+    --vi-font-size-h3: 1.5rem;
+    /* 24px */
+    --vi-font-size-h4: 1.25rem;
+    /* 20px */
+    --vi-font-size-h5: 1.125rem;
+    /* 18px */
+    --vi-font-size-h6: 1rem;
+    /* 16px */
+  }
+
+  /* Example: Adjust padding for small screens */
+  .vi-p-md {
+    padding: var(--vi-spacing-sm) !important;
+  }
+
+  .vi-px-md {
+    padding-left: var(--vi-spacing-sm) !important;
+    padding-right: var(--vi-spacing-sm) !important;
+  }
+
+  .vi-py-md {
+    padding-top: var(--vi-spacing-sm) !important;
+    padding-bottom: var(--vi-spacing-sm) !important;
+  }
+
+  /* Responsive display utilities */
+  .vi-d-none-xs {
+    display: none !important;
+  }
+
+  .vi-d-block-xs {
+    display: block !important;
+  }
+
+  .vi-d-flex-xs {
+    display: flex !important;
+  }
+}
+
+/* 5.2 Medium Devices (576px - 767px) */
+@media (min-width: var(--vi-vi-breakpoint-sm)) and (max-width: calc(var(--vi-vi-breakpoint-md) - 1px)) {
+  :root {
+    --vi-font-size-base: 1rem;
+    /* 16px */
+    --vi-font-size-h1: 2.25rem;
+    /* 36px */
+    --vi-font-size-h2: 1.875rem;
+    /* 30px */
+    --vi-font-size-h3: 1.625rem;
+    /* 26px */
+  }
+
+  /* Responsive display utilities */
+  .vi-d-none-sm {
+    display: none !important;
+  }
+
+  .vi-d-block-sm {
+    display: block !important;
+  }
+
+  .vi-d-flex-sm {
+    display: flex !important;
+  }
+}
+
+/* 5.3 Large Devices (768px - 991px) */
+@media (min-width: var(--vi-vi-breakpoint-md)) and (max-width: calc(var(--vi-vi-breakpoint-lg) - 1px)) {
+  :root {
+    --vi-font-size-base: 1rem;
+    /* 16px */
+    --vi-font-size-h1: 2.5rem;
+    /* 40px */
+    --vi-font-size-h2: 2rem;
+    /* 32px */
+    --vi-font-size-h3: 1.75rem;
+    /* 28px */
+  }
+
+  /* Responsive display utilities */
+  .vi-d-none-md {
+    display: none !important;
+  }
+
+  .vi-d-block-md {
+    display: block !important;
+  }
+
+  .vi-d-flex-md {
+    display: flex !important;
+  }
+}
+
+/* 5.4 Extra-Large Devices (992px - 1199px) */
+@media (min-width: var(--vi-vi-breakpoint-lg)) and (max-width: calc(var(--vi-vi-breakpoint-xl) - 1px)) {
+  :root {
+    --vi-font-size-base: 1.0625rem;
+    /* 17px */
+    --vi-font-size-h1: 2.75rem;
+    /* 44px */
+    --vi-font-size-h2: 2.25rem;
+    /* 36px */
+  }
+
+  /* Responsive display utilities */
+  .vi-d-none-lg {
+    display: none !important;
+  }
+
+  .vi-d-block-lg {
+    display: block !important;
+  }
+
+  .vi-d-flex-lg {
+    display: flex !important;
+  }
+}
+
+/* 5.5 XXL Devices (1200px - 1399px) */
+@media (min-width: var(--vi-vi-breakpoint-xl)) and (max-width: calc(var(--vi-vi-breakpoint-xxl) - 1px)) {
+  :root {
+    --vi-font-size-base: 1.125rem;
+    /* 18px */
+    --vi-font-size-h1: 3rem;
+    /* 48px */
+    --vi-font-size-h2: 2.5rem;
+    /* 40px */
+  }
+
+  /* Responsive display utilities */
+  .vi-d-none-xl {
+    display: none !important;
+  }
+
+  .vi-d-block-xl {
+    display: block !important;
+  }
+
+  .vi-d-flex-xl {
+    display: flex !important;
+  }
+}
+
+/* 5.6 XXXL Devices (1400px - 1919px) */
+@media (min-width: var(--vi-vi-breakpoint-xxl)) and (max-width: calc(var(--vi-vi-breakpoint-xxxl) - 1px)) {
+  :root {
+    --vi-font-size-base: 1.1875rem;
+    /* 19px */
+    --vi-font-size-h1: 3.25rem;
+    /* 52px */
+    --vi-font-size-h2: 2.75rem;
+    /* 44px */
+  }
+
+  /* Responsive display utilities */
+  .vi-d-none-xxl {
+    display: none !important;
+  }
+
+  .vi-d-block-xxl {
+    display: block !important;
+  }
+
+  .vi-d-flex-xxl {
+    display: flex !important;
+  }
+}
+
+/* 5.7 Ultra-Wide Devices (1920px and above) */
+@media (min-width: var(--vi-vi-breakpoint-xxxl)) {
+  :root {
+    --vi-font-size-base: 1.25rem;
+    /* 20px */
+    --vi-font-size-h1: 3.5rem;
+    /* 56px */
+    --vi-font-size-h2: 3rem;
+    /* 48px */
+  }
+
+  /* Responsive display utilities */
+  .vi-d-none-xxxl {
+    display: none !important;
+  }
+
+  .vi-d-block-xxxl {
+    display: block !important;
+  }
+
+  .vi-d-flex-xxxl {
+    display: flex !important;
+  }
+}
+
+/* ===================================================================
+* 6. Print Styles
+* =================================================================== */
+@media print {
+
+  *,
+  *::before,
+  *::after {
+    background: #fff !important;
+    color: #000 !important;
+    /* text-shadow: none !important; */
+    box-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]::after {
+    content: " (" attr(title) ")";
+  }
+
+  /* Don't show links that are fragment identifiers,
+  or use the `javascript:` pseudo protocol */
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}

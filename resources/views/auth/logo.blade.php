@@ -1,0 +1,1 @@
+<img src="{{ asset('/vectorz-logo.svg') }}" alt="vectorz">

@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'Inter var';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Regular';
+  src: url('../fonts/Inter-roman.var.woff2?v=3.18') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter var';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url('../fonts/Inter-italic.var.woff2?v=3.18') format('woff2');
+}
+
+/* @font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  src:  url(../fonts/material-design-icons/MaterialSymbolsOutlined.woff2) format('woff2'),
+        url(../fonts/material-design-icons/MaterialSymbolsOutlined-VariableFont_FILL\,GRAD\,opsz\,wght.ttf) format('ttf');
+}
+
+@font-face {
+  font-family: 'Material Symbols Rounded';
+  font-style: normal;
+  font-weight: 100 700;
+  src:  url(../fonts/material-design-icons/MaterialSymbolsRounded.woff2) format('woff2'),
+        url(../fonts/material-design-icons/MaterialSymbolsRounded.ttf) format('ttf');
+      }
+      
+@font-face {
+  font-family: 'Material Symbols Sharp';
+  font-style: normal;
+  font-weight: 100 700;
+  src:  url(../fonts/material-design-icons/MaterialSymbolsSharp.woff2) format('woff2'),
+        url(../fonts/material-design-icons/MaterialSymbolsSharp.ttf) format('ttf');
+} */
