@@ -38,10 +38,10 @@ class AuctionController extends Controller
             ->appends($request->query());
 
         if ($request->ajax()) {
-            return view('cms.auction-data', compact('projects', 'currentSort', 'currentOrder'))->render();
+            return view('cms.auctions.auction-data', compact('projects', 'currentSort', 'currentOrder'))->render();
         }
 
-        return view('cms.auctions', compact('projects', 'currentSort', 'currentOrder'));
+        return view('cms.auctions.auctions', compact('projects', 'currentSort', 'currentOrder'));
     }
 
     /**
@@ -51,7 +51,7 @@ class AuctionController extends Controller
     {
         $states = AuctionState::orderBy('name', 'asc')->get();
         $cities = AuctionCity::orderBy('name', 'asc')->get();
-        return view('cms.create-auction',compact('states','cities'));
+        return view('cms.auctions.create-auction',compact('states','cities'));
     }
 
     /**
@@ -141,7 +141,7 @@ class AuctionController extends Controller
                     ->firstOrFail();
         $states = AuctionState::orderBy('name', 'asc')->get();
         $cities = AuctionCity::orderBy('name', 'asc')->get();
-        return view('cms.edit-auction',compact('states','cities', 'auction'));
+        return view('cms.auctions.edit-auction',compact('states','cities', 'auction'));
     }
 
     /**

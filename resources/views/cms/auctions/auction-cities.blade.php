@@ -21,29 +21,23 @@
     @include('cms.cms-styles')
 </head>
 
-<body id="auction-list">
+<body id="auction-cities">
     <div class="wrapper" id="wrapper">
         @include("cms.sidebar")
         <div class="main-content-wrapper">
             @include('cms.header')
             <section id="content-wrapper" class="content-wrapper">
-
                 <div class="content-header-wrap">
-
-                    <h2 class="content-title">Auctions</h2>
+                    <h2 class="content-title">Cities</h2>
                     <div class="action-btns">
-                            <div class="sub-head">
-                                <a href="{{ url('cms-admin/auctions/create') }}" class="vi-btn vi-btn-primary">
-                                    <i class="las la-plus"></i>Add New
-                                </a>
-                            </div>
+                        <div class="sub-head">
+                            <a href="{{ url('cms-admin/auction-cities/create')}}"  class="vi-btn vi-btn-primary " id="reset-form"><i class="las la-plus"></i>Add New</a>
+                        </div>
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="wcard">
-
                             <div class="wcard-flex-header card-header">
                                 <form id="filterForm" class="filter-form vi-d-flex">
                                     <div class="search-bar">
@@ -58,9 +52,7 @@
                                     </div>
                                 </form>
                             </div>
-
                             <div class="wcard-body">
-
                                 <div class="vi-d-flex mb-4">
 
                                     <div class="bulk-operations vi-d-flex" id="bulkOperations" style="display: none;">
@@ -72,14 +64,12 @@
                                     </div>
 
                                 </div>
-
-
-                                <div id="data-block">
-                                    @include('cms.auction-data')
+                                <div class="caed-body pb-0">
+                                    <div id="data-block">
+                                        @include('cms.auctions.auction-cities-data')
+                                    </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -87,9 +77,6 @@
             {{-- @include('cms.footer') --}}
         </div>
     </div>
-
-
-
             @include('cms.confirmation-model')
             @include('cms.cms-scripts')
 </body>

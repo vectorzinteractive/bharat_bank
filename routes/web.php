@@ -12,10 +12,15 @@ use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\AuctionStateController;
+use App\Http\Controllers\AuctionCityController;
+use App\Http\Controllers\ViewPageController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/auctions', [ViewPageController::class, 'auctions']);
+Route::post('/auctions/filter', [ViewPageController::class, 'filterAuctions']);
 
 Route::get('/publish-module-assets/{module}', function ($moduleName) {
     try {
@@ -159,8 +164,11 @@ Route::prefix('cms-admin')->middleware('auth')->group(function () {
     Route::post('/update-password', [ProfileController::class, 'updatePassword'])
     ->name('cmsadmin.update.password');
 
-    Route::patch('auctions/bulk-delete-items', [AuctionController::class, 'bulkDelete']);
-    Route::resource('auctions', AuctionController::class)->names('auctions');
+    Route::delete('auction-cities/bulk-delete-items', [AuctionStateController::class, 'bulkDelete'])->name('cityBulk');
+    Route::delete('auction-states/bulk-delete-items', [AuctionStateController::class, 'bulkDelete'])->name('stateBulk');
+    Route::delete('auctions/bulk-delete-items', [AuctionController::class, 'bulkDelete'])->name('auctionBulk');
+    Route::resource('auction-cities', AuctionCityController::class)->names('auction-cities');
     Route::resource('auction-states', AuctionStateController::class)->names('auction-state');
+    Route::resource('auctions', AuctionController::class)->names('auctions');
 
 });

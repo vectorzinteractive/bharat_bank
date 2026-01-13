@@ -22,5 +22,10 @@ class AuctionState extends Model
         return $this->belongsTo(AuctionCity::class, 'city_id');
     }
 
+    public function auctions()
+    {
+        return $this->hasMany(Auction::class, 'state_id');
+    }
+
 
 }

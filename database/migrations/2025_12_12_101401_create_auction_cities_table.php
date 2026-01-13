@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('auction_cities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('state_id')->constrained('auction_states')->onDelete('cascade');
+            $table->foreignId(column: 'state_id')->constrained('auction_states')->onDelete('cascade');
             $table->string('name', 150)->unique();
             $table->string('slug')->unique();
             $table->foreignId('pincode_id')->constrained('pincode')->onDelete('cascade');

@@ -5,3 +5,7 @@
 <script src="{{ asset('/backend/js/cms.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/backend/js/cropper.min.js') }}"></script>
 <script src="{{ asset('/backend/js/auction.js') }}" type="text/javascript"></script>
+<script>
+    window.APP_URL = "{{ url('/') }}/";
+</script>
+

@@ -248,7 +248,7 @@
 
 .date-head, .col-date,
 .count-head, .col-count{
-    width: 120px;
+    min-width: 120px;
 }
 
 .actions-head, .col-actions{

@@ -45,9 +45,7 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-menu">
                     <ul>
-                        <li class="header-menu">
-                            <span>Navigation</span>
-                        </li>
+
                         <li class="dropdown-item">
                             <a href="" class="sidebar-link menu-toggle">
                                 <div class="sb-drpdn-head">
@@ -69,11 +67,10 @@
                                     <a href="{{ url("cms-admin/auction-states") }}" class="sidebar-link">Auction States</a>
                                 </li>
                                 <li class="dropdown-item">
-                                    <a href="{{ url("cms-admin/blog-categories") }}" class="sidebar-link">Auction Cities</a>
+                                    <a href="{{ url("cms-admin/auction-cities") }}" class="sidebar-link">Auction Cities</a>
                                 </li>
                             </ul>
                         </li>
-
 
                         @php
                             use Nwidart\Modules\Facades\Module;
@@ -81,11 +78,8 @@
 
                         @if(Module::has('Blog') && Module::find('Blog')->isEnabled())
                         <li class="dropdown-item">
-                            <a href="" class="sidebar-link menu-toggle">
+                            <a href="{{ url("cms-admin/blogs") }}" class="sidebar-link menu-toggle">
                                 <div class="sb-drpdn-head">
-                                    <div class="head-icon">
-                                        <i data-duoicon="box-2"></i>
-                                    </div>
                                     <span>Blogs</span>
                                 </div>
                                 <div class="carret-arrow">
@@ -108,9 +102,6 @@
                         <li class="dropdown-item">
                             <a href="" class="sidebar-link menu-toggle">
                                 <div class="sb-drpdn-head">
-                                    <div class="head-icon">
-                                        <i data-duoicon="box-2"></i>
-                                    </div>
                                     <span>Careers</span>
                                 </div>
                                 <div class="carret-arrow">
@@ -136,13 +127,21 @@
                         </li>
                         @endif
 
+                        @if(Module::has('NewsAwards') && Module::find('NewsAwards')->isEnabled())
+                        <li class="dropdown-item">
+                            <a href="{{ url("cms-admin/newsawards") }}" class="sidebar-link">
+                                <div class="sb-drpdn-head">
+                                    <span>News & Awards</span>
+                                </div>
+                            </a>
+
+                        </li>
+                        @endif
+
                         @if(Module::has('GenericProject') && Module::find('GenericProject')->isEnabled())
                         <li class="dropdown-item">
-                            <a href="" class="sidebar-link menu-toggle">
+                            <a href="{{ url('cms-admin/projects') }}" class="sidebar-link menu-toggle">
                                 <div class="sb-drpdn-head">
-                                    <div class="head-icon">
-                                        <i data-duoicon="box-2"></i>
-                                    </div>
                                     <span>Projects</span>
                                 </div>
                                 <div class="carret-arrow">
@@ -164,19 +163,62 @@
                         </li>
                         @endif
 
-                        @if(Module::has('Team') && Module::find('Team')->isEnabled())
+                        @if(Module::has('HomeBannerSlider1') && Module::find('HomeBannerSlider1')->isEnabled())
                         <li class="dropdown-item">
-                            <a href="" class="sidebar-link menu-toggle">
+                            <a href="{{ url("cms-admin/homebannerslider1s") }}" class="sidebar-link">
                                 <div class="sb-drpdn-head">
-                                    <div class="head-icon">
-                                        <i data-duoicon="box-2"></i>
-                                    </div>
+                                    <span>Home Hero Banner</span>
+                                </div>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if(Module::has('RealEstateProject') && Module::find('RealEstateProject')->isEnabled())
+                        <li class="dropdown-item">
+                            <a href="{{ url('cms-admin/realestateprojects') }}" class="sidebar-link menu-toggle">
+                                <div class="sb-drpdn-head">
+                                    <span>Projects</span>
+                                </div>
+                                <div class="carret-arrow">
+                                    <i class="las la-angle-right"></i>
+                                </div>
+                            </a>
+
+                            <ul class="sidebar-submenu sub-menu">
+                                <li class="dropdown-item">
+                                    <a href="{{ url('cms-admin/realestateprojects') }}" class="sidebar-link">Project</a>
+                                </li>
+                                <li class="dropdown-item">
+                                   <a href="{{ url('cms-admin/realestate-amenities') }}" class="sidebar-link">Amenities</a>
+                               </li>
+                                <li class="dropdown-item">
+                                    <a href="{{ url('cms-admin/realestate-categories') }}" class="sidebar-link">Categories</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a href="{{ url('cms-admin/realestate-subcategories') }}" class="sidebar-link">SubCategories</a>
+                                </li>
+                                 <li class="dropdown-item">
+                                    <a href="{{ url('cms-admin/floor-plan-enquiry') }}" class="sidebar-link">Floor Plan Enquiries</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a href="{{ url('cms-admin/project-visit') }}" class="sidebar-link">Project Visit Enquiries</a>
+                                </li>
+                            </ul>
+                        </li>
+                        @endif
+
+                        @if(Module::has('Team') && Module::find('Team')->isEnabled())
+
+                        <li class="dropdown-item">
+                            <a href="{{ url('cms-admin/teams') }}" class="sidebar-link menu-toggle">
+                                <div class="sb-drpdn-head">
                                     <span>Team</span>
                                 </div>
                                 <div class="carret-arrow">
                                     <i class="las la-angle-right"></i>
                                 </div>
                             </a>
+
 
                             <ul class="sidebar-submenu sub-menu">
                                 <li class="dropdown-item">
@@ -190,14 +232,9 @@
                         @endif
 
 
-
-
-
-
                     </ul>
                 </div>
             </nav>
         </div>
     </aside>
 </div>
-

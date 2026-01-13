@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AuctionState;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\SearchFilter;
@@ -26,18 +28,18 @@ class AuctionStateController extends Controller
                 AllowedFilter::custom('date_range', new DateRangeFilter('created_at')),
             ])
             ->allowedSorts(['name', 'created_at'])
-            ->defaultSort('-created_at')
+            ->defaultSort('name')
             ->paginate(20)
             ->appends($request->query());
 
         if ($request->ajax()) {
-            return view('cms.auction-states-data', [
+            return view('cms.auctions.auction-states-data', [
                 'data' => $data,
                 'currentSort' => $currentSort,
                 'currentOrder' => $currentOrder,
             ])->render();
         }
-        return view('cms.auction-states', [
+        return view('cms.auctions.auction-states', [
             'data' => $data,
             'currentSort' => $currentSort,
             'currentOrder' => $currentOrder,
@@ -49,7 +51,7 @@ class AuctionStateController extends Controller
      */
     public function create()
     {
-        //
+        return view('cms.auctions.create-state');
     }
 
     /**
@@ -58,39 +60,58 @@ class AuctionStateController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'add_data' => 'required|string|max:255',
+            'state'      => 'required|string|max:150',
+            'state_slug' => 'nullable|string|max:255',
         ]);
 
-        // $slug = Str::slug($request->add_data);
+        DB::beginTransaction();
 
-        // $originalSlug = $slug;
-        // $counter = 1;
+        try {
+            if (AuctionState::where('name', $request->state)->exists()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'State already exists'
+                ], 422);
+            }
 
-        // while (GenericProjectCategory::where('slug', $slug)->exists()) {
-        //     $slug = $originalSlug . '-' . $counter++;
-        // }
+            $slug = $request->state_slug
+                ? Str::slug($request->state_slug)
+                : Str::slug($request->state);
 
-        if (AuctionState::where('name', $request->add_data)->exists()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Already exists!'
+            $originalSlug = $slug;
+            $counter = 1;
+
+            while (AuctionState::where('slug', $slug)->exists()) {
+                $slug = $originalSlug . '-' . $counter++;
+            }
+
+            $state = AuctionState::create([
+                'name' => $request->state,
+                'slug' => $slug,
             ]);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'State created successfully',
+                'data' => [
+                    'id'         => $state->id,
+                    'name'       => $state->name,
+                    'slug'       => $state->slug,
+                    'created_at' => $state->created_at->format('d F Y'),
+                ],
+            ], 201);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong',
+                'error'   => $e->getMessage()
+            ], 500);
         }
-
-        $item = AuctionState::create([
-            'name' => $request->add_data,
-            // 'slug' => $slug
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Added successfully!',
-            'data' => [
-                'id' => $item->id,
-                'name' => $item->name,
-                'created_at' => $item->created_at->format('d F Y'),
-            ],
-        ]);
     }
 
     /**
@@ -106,12 +127,9 @@ class AuctionStateController extends Controller
      */
     public function edit($id)
     {
-        $data = AuctionState::find($id);
-        if (!$data) {
-            return response()->json(['status' => 'error', 'message' => 'Not found'], 404);
-        }
-
-        return response()->json(['status' => 'success', 'data' => $data]);
+        $auctionState = AuctionState::where('id', $id)
+                    ->firstOrFail();
+        return view('cms.auctions.edit-state',compact('auctionState'));
     }
 
     /**
@@ -120,50 +138,71 @@ class AuctionStateController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'add_data' => 'required|string|max:255',
+            'state'      => 'required|string|max:150',
+            'state_slug' => 'nullable|string|max:255',
         ]);
 
-        //  $slug = Str::slug($request->add_data);
+        DB::beginTransaction();
 
-        // $originalSlug = $slug;
-        // $counter = 1;
+        try {
+            $state = AuctionState::find($id);
 
-        // while (GenericProjectCategory::where('slug', $slug)->exists()) {
-        //     $slug = $originalSlug . '-' . $counter++;
-        // }
+            if (!$state) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'State not found'
+                ], 404);
+            }
 
-        $item = AuctionState::find($id);
-        if (!$item) {
+            if (
+                AuctionState::where('name', $request->state)
+                    ->where('id', '!=', $id)
+                    ->exists()
+            ) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'State already exists'
+                ], 409);
+            }
+
+            $slug = Str::slug($request->state_slug ?? $request->state);
+            $originalSlug = $slug;
+            $counter = 1;
+
+            while (
+                AuctionState::where('slug', $slug)
+                    ->where('id', '!=', $id)
+                    ->exists()
+            ) {
+                $slug = $originalSlug . '-' . $counter++;
+            }
+
+            $state->update([
+                'name' => $request->state,
+                'slug' => $slug,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'State updated successfully',
+                'data' => [
+                    'id'         => $state->id,
+                    'name'       => $state->name,
+                    'slug'       => $state->slug,
+                    'created_at' => $state->created_at->format('d F Y'),
+                ],
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
             return response()->json([
                 'status' => 'error',
-                'message' => 'Not found.'
-            ], 404);
+                'message' => 'Something went wrong',
+            ], 500);
         }
-
-        if (AuctionState::where('name', $request->add_data)
-            ->where('id', '!=', $id)
-            ->exists())
-        {
-            return response()->json([
-                'success' => false,
-                'message' => 'Already exists!'
-            ], 409);
-        }
-
-        $item->update([
-            'name' => $request->add_data,
-            // 'slug' => $slug
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Updated successfully!',
-            'data' => [
-                'id' => $item->id,
-                'name' => $item->name,
-                'created_at' => $item->created_at->format('d F Y'),
-            ]
-        ]);
     }
 
     /**
@@ -171,8 +210,7 @@ class AuctionStateController extends Controller
      */
     public function destroy($id) {
         $item = AuctionState::findOrFail($id);
-
-            if ($item->city()->exists()) {
+            if ($item->city()->exists() || $item->auctions()->exists() ) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'It is linked and cannot be deleted.'
@@ -185,5 +223,16 @@ class AuctionStateController extends Controller
             'status' => 'success',
             'message' => 'Deleted successfully.'
         ]);
+    }
+
+    public function bulkDelete(Request $request) {
+        $projectIds = $request->selected_ids;
+
+        if (!empty($projectIds)) {
+            AuctionState::whereIn('id', $projectIds)->delete();
+            return response()->json(['message' => 'Selected Data deleted permanently.']);
+        }
+
+        return response()->json(['message' => 'No Project selected for deletion.'], 400);
     }
 }
