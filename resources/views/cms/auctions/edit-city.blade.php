@@ -85,34 +85,16 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-6">
                                                     <div class="create-form-content-wrap form-input-group">
                                                         <label for="city" class="form-label">City</label>
                                                         <input type="text" id="" class="form-control" name="city" placeholder="" value="{{ $city->name }}">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-6">
                                                      <div class="create-form-content-wrap form-input-group">
                                                         <label for="city_slug" class="form-label">Slug <span>(Optional)</span></label>
                                                         <input type="text" id="" class="form-control" name="city_slug" placeholder="" value="{{ $city->slug }}">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="create-form-content-wrap form-input-group">
-                                                        <label for="select_pincode" class="form-label">Pincode:</label>
-                                                        <select name="pincode_id" id="select_pincode" class="form-select">
-                                                             <option value="" disabled>Select Pincode</option>
-                                                                @foreach($pincode as $pincodeData)
-                                                                    <option value="{{ $pincodeData->id }}"
-                                                                        {{ $city->pincode_id == $pincodeData->id ? 'selected' : '' }}>
-                                                                        {{ $pincodeData->pincode }}
-                                                                    </option>
-                                                                @endforeach
-                                                                <option value="add_new">Add New</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-2 d-none" id="add_pincode_wrapper">
-                                                        <input type="number" name="new_pincode" class="form-control" placeholder="Enter new Pincode" min="1" maxlength="6" pattern="[0-9]{6}">
                                                     </div>
                                                 </div>
                                             </div>

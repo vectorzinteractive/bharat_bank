@@ -67,7 +67,7 @@
                                 <div class="wcard">
                                     <div class="wcard-body">
                                         <h3 class="mb-4">Location</h3>
-                                        <div class="row">
+                                        <div class="row row-gap-3">
                                                 <div class="col-lg-6">
                                                     <div class="create-form-content-wrap form-input-group">
                                                         <label for="state_select" class="form-label">Select State:</label>
@@ -76,33 +76,70 @@
                                                             @foreach($states as $state)
                                                                 <option value="{{ $state->id }}">{{ $state->name }}</option>
                                                             @endforeach
-                                                            <option value="add_new">Add New State</option>
+                                                            {{-- <option value="add_new">Add New State</option> --}}
                                                         </select>
-                                                    </div>
-                                                    <div class="mt-2 d-none" id="add_state_wrapper">
-                                                        <input type="text" name="new_state" class="form-control" placeholder="Enter new state name">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="create-form-content-wrap form-input-group">
                                                         <label for="city_select" class="form-label">Select City:</label>
 
-                                                            <select name="city_id" id="city_select" class="form-select">
+                                                            {{-- <select name="city_id" id="city_select" class="form-select">
                                                                 <option value="" disabled selected>Select City</option>
                                                                 @foreach($cities as $cityData)
                                                                     <option value="{{ $cityData->id }}">{{ Str::title($cityData->name) }}</option>
                                                                 @endforeach
                                                                 <option value="add_new">Add New City</option>
+                                                            </select> --}}
+                                                            <select name="city_id" id="city_select" class="form-select" disabled>
+                                                                <option value="" selected>Select City</option>
+                                                                <option value="add_new">Add New City</option>
                                                             </select>
                                                     </div>
                                                     <div class="mt-2 d-none" id="add_city_wrapper">
                                                         <input type="text" name="new_city" class="form-control" placeholder="Enter new city name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="create-form-content-wrap form-input-group">
+                                                        <label for="town_select" class="form-label">Select Town:</label>
+
+                                                            {{-- <select name="town_id" id="town_select" class="form-select">
+                                                                <option value="" disabled selected>Select Town</option>
+                                                                @foreach($towns as $townData)
+                                                                    <option value="{{ $townData->id }}">{{ Str::title($townData->name) }}</option>
+                                                                @endforeach
+                                                                <option value="add_new">Add New Town</option>
+                                                            </select> --}}
+                                                            <select name="town_id" id="town_select" class="form-select" disabled>
+                                                                <option value="" selected>Select Town</option>
+                                                                <option value="add_new">Add New Town</option>
+                                                            </select>
+                                                    </div>
+                                                    <div class="mt-2 d-none" id="add_town_wrapper">
+                                                        <input type="text" name="new_town" class="form-control" placeholder="Enter new Town name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="create-form-content-wrap form-input-group">
+                                                        <label for="pincode_select" class="form-label">Select Pincode:</label>
+                                                            {{-- <select name="pincode_id" id="pincode_select" class="form-select">
+                                                                <option value="" disabled selected>Select Pincode</option>
+                                                                @foreach($pincodes as $pincode)
+                                                                    <option value="{{ $pincode->id }}">{{ Str::title($pincode->pincode) }}</option>
+                                                                @endforeach
+                                                                <option value="add_new">Add New Pincode</option>
+                                                            </select> --}}
+                                                            <select name="pincode_id" id="pincode_select" class="form-select" disabled>
+                                                                <option value="" selected>Select Pincode</option>
+                                                                <option value="add_new">Add New Pincode</option>
+                                                            </select>
+                                                    </div>
+                                                    <div class="mt-2 d-none" id="add_pincode_wrapper">
                                                         <input type="number" id="" class="form-control mt-2" name="new_pincode" placeholder="Enter Pincode" min="1" maxlength="6" pattern="[0-9]{6}">
                                                     </div>
                                                 </div>
                                             </div>
-
-
                                     </div>
                                 </div>
 
@@ -155,13 +192,13 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
             <script>
-$(document).ready(function () {
-    $('#city_select').select2({
-        placeholder: 'Select City',
-        allowClear: true,
-        width: '100%'
-    });
-});
+// $(document).ready(function () {
+//     $('#city_select').select2({
+//         placeholder: 'Select City',
+//         allowClear: true,
+//         width: '100%'
+//     });
+// });
 
 
 

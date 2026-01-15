@@ -1,0 +1,36 @@
+
+
+:root {
+
+    --primary: #170e6a;
+    --secondary: #0789d7;
+  
+    --white: #fff;
+    --black: #000;
+    --grayf4: #f4f4f4;
+    --Grayf8: #f8f9fa;
+
+
+    --font-Aspekta :"Aspekta";
+
+    --font75: max(2.5rem, min(5vw, 4.6875rem));
+    --font58: max(2.5rem, min(4vw, 3.63rem));
+    --font55: max(2.1875rem, min(4vw, 3.4375rem));
+    --font48: max(1.75rem, min(4vw, 3.05rem));
+    --font43: max(1.875rem, min(8vw, 2.6875rem));
+    --font31: max(1.5625rem, min(8vw, 1.9375rem));
+    --font25: max(1.25rem, min(8vw, 1.5625rem));
+    --font24: max(1.175rem, min(8vw, 1.5rem));
+    --font20: max(1rem, min(2vw, 1.25rem));
+    --font18: max(0.875rem, min(2vw, 1.125rem));
+    --font18-16: max(1rem, min(2vw, 1.125rem));
+    --font17: 1.0625rem;
+    --font16: 1rem;
+    --font15: .9375rem;
+    --font14: 0.875rem;
+    --font11: .6875rem;
+
+
+
+    --space110px: 6.875rem;
+}

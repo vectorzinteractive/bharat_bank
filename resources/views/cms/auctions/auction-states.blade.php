@@ -31,7 +31,7 @@
                     <h2 class="content-title">States</h2>
                     <div class="action-btns">
                         <div class="sub-head">
-                            <a href="{{ url('cms-admin/auction-states/create')}}"  class="vi-btn vi-btn-primary " id="reset-form"><i class="las la-plus"></i>Add New</a>
+                            <a href="{{ url('cms-admin/states/create')}}"  class="vi-btn vi-btn-primary " id="reset-form"><i class="las la-plus"></i>Add New</a>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="caed-body pb-0">
                                     <div id="data-block">
-                                        @include('cms.auctions.auction-states-data')
+                                        @include('cms.states-data')
                                     </div>
                                 </div>
                             </div>

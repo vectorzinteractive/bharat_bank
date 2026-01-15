@@ -17,6 +17,7 @@
                 <th class="des-head sortable sort-column" data-column="description" data-order="{{ $currentSort === 'description' && $currentOrder === 'asc' ? 'desc' : 'asc' }}"> Description @if($currentSort === 'description') <i class="las la-arrow-{{ $currentOrder === 'asc' ? 'up' : 'down' }}"></i> @endif </th>
                 <th class="des-head sortable sort-column" data-column="description" data-order="{{ $currentSort === 'description' && $currentOrder === 'asc' ? 'desc' : 'asc' }}"> State @if($currentSort === 'description') <i class="las la-arrow-{{ $currentOrder === 'asc' ? 'up' : 'down' }}"></i> @endif </th>
                 <th class="des-head sortable sort-column" data-column="description" data-order="{{ $currentSort === 'description' && $currentOrder === 'asc' ? 'desc' : 'asc' }}"> City @if($currentSort === 'description') <i class="las la-arrow-{{ $currentOrder === 'asc' ? 'up' : 'down' }}"></i> @endif </th>
+                <th class="des-head sortable sort-column" data-column="description" data-order="{{ $currentSort === 'description' && $currentOrder === 'asc' ? 'desc' : 'asc' }}"> Town @if($currentSort === 'description') <i class="las la-arrow-{{ $currentOrder === 'asc' ? 'up' : 'down' }}"></i> @endif </th>
                 <th class="link-head actions-head">Actions</th>
             </tr>
         </thead>
@@ -38,10 +39,13 @@
                 </td>
 
                 <td class="title-and-cat-wrap col-des">
-                   {{ Str::title($data->state->name) }}
+                   {{ Str::title($data->pincode->town->city->state->name ?? '') }}
                 </td>
                 <td class="title-and-cat-wrap col-des">
-                    {{ Str::title($data->city->name) }}
+                    {{ Str::title($data->pincode->town->city->name ?? '') }}
+                </td>
+                <td class="title-and-cat-wrap col-des">
+                    {{ Str::title($data->pincode->town->name ?? '') }}
                 </td>
 
                 <td class="col-actions">

@@ -10,7 +10,18 @@ class Pincode extends Model
     use HasFactory;
     protected $table = 'pincode';
 
-    protected $fillable = [
+     protected $fillable = [
+        'town_id',
         'pincode',
     ];
+
+    public function town()
+    {
+        return $this->belongsTo(Town::class);
+    }
+
+    public function auctions()
+    {
+        return $this->hasMany(Auction::class, 'pincode_id');
+    }
 }

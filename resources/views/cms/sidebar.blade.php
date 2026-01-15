@@ -47,12 +47,23 @@
                     <ul>
 
                         <li class="dropdown-item">
-                            <a href="" class="sidebar-link menu-toggle">
+                            <a href="{{ url("cms-admin/auctions") }}" class="sidebar-link">
                                 <div class="sb-drpdn-head">
                                     <div class="head-icon">
                                         <i data-duoicon="box-2"></i>
                                     </div>
                                     <span>Auctions</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="dropdown-item">
+                            <a href="" class="sidebar-link menu-toggle">
+                                <div class="sb-drpdn-head">
+                                    <div class="head-icon">
+                                        <i data-duoicon="box-2"></i>
+                                    </div>
+                                    <span>Manage Location</span>
                                 </div>
                                 <div class="carret-arrow">
                                     <i class="las la-angle-right"></i>
@@ -61,13 +72,16 @@
 
                             <ul class="sidebar-submenu sub-menu">
                                 <li class="dropdown-item">
-                                    <a href="{{ url("cms-admin/auctions") }}" class="sidebar-link">Auctions</a>
+                                    <a href="{{ url("cms-admin/states") }}" class="sidebar-link">States</a>
                                 </li>
                                 <li class="dropdown-item">
-                                    <a href="{{ url("cms-admin/auction-states") }}" class="sidebar-link">Auction States</a>
+                                    <a href="{{ url("cms-admin/cities") }}" class="sidebar-link">Cities</a>
                                 </li>
                                 <li class="dropdown-item">
-                                    <a href="{{ url("cms-admin/auction-cities") }}" class="sidebar-link">Auction Cities</a>
+                                    <a href="{{ url("cms-admin/towns") }}" class="sidebar-link">Towns</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a href="{{ url("cms-admin/pincodes") }}" class="sidebar-link">Pincode</a>
                                 </li>
                             </ul>
                         </li>

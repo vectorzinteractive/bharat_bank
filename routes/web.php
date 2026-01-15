@@ -11,8 +11,11 @@ use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
 use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuctionController;
-use App\Http\Controllers\AuctionStateController;
-use App\Http\Controllers\AuctionCityController;
+use App\Http\Controllers\StateController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\TownController;
+use App\Http\Controllers\PincodeController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ViewPageController;
 
 Route::get('/', function () {
@@ -21,6 +24,8 @@ Route::get('/', function () {
 
 Route::get('/auctions', [ViewPageController::class, 'auctions']);
 Route::post('/auctions/filter', [ViewPageController::class, 'filterAuctions']);
+
+
 
 Route::get('/publish-module-assets/{module}', function ($moduleName) {
     try {
@@ -164,11 +169,14 @@ Route::prefix('cms-admin')->middleware('auth')->group(function () {
     Route::post('/update-password', [ProfileController::class, 'updatePassword'])
     ->name('cmsadmin.update.password');
 
-    Route::delete('auction-cities/bulk-delete-items', [AuctionStateController::class, 'bulkDelete'])->name('cityBulk');
-    Route::delete('auction-states/bulk-delete-items', [AuctionStateController::class, 'bulkDelete'])->name('stateBulk');
+    Route::delete('cities/bulk-delete-items', [CityController::class, 'bulkDelete'])->name('cityBulk');
+    Route::delete('states/bulk-delete-items', [StateController::class, 'bulkDelete'])->name('stateBulk');
     Route::delete('auctions/bulk-delete-items', [AuctionController::class, 'bulkDelete'])->name('auctionBulk');
-    Route::resource('auction-cities', AuctionCityController::class)->names('auction-cities');
-    Route::resource('auction-states', AuctionStateController::class)->names('auction-state');
+    Route::resource('pincodes', PincodeController::class)->names(names: 'pincodes');
+    Route::resource('towns', TownController::class)->names(names: 'towns');
+    Route::resource('cities', CityController::class)->names('cities');
+    Route::resource('states', StateController::class)->names('states');
+    Route::get('/location/children', [LocationController::class, 'children']);
     Route::resource('auctions', AuctionController::class)->names('auctions');
 
 });

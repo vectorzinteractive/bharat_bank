@@ -18,19 +18,13 @@ class Auction extends Model
     protected $fillable = [
         'description',
         'slug',
-        'state_id',
-        'city_id',
+        'pincode_id',
         'price',
-        'sq_ft'
+        'sq_ft',
     ];
 
-    public function state()
+    public function pincode()
     {
-        return $this->belongsTo(AuctionState::class, 'state_id');
-    }
-
-    public function city()
-    {
-        return $this->belongsTo(AuctionCity::class, 'city_id');
+        return $this->belongsTo(Pincode::class);
     }
 }

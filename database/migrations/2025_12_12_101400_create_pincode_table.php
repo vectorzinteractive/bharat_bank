@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('pincode', function (Blueprint $table) {
             $table->id();
-            $table->char('pincode', 6)->unique();
+            $table->char('pincode', 6);
+            $table->foreignId('town_id')->constrained('towns')->cascadeOnDelete();
             $table->timestamps();
+            $table->unique(['pincode']);
+            $table->index('town_id');
         });
     }
 

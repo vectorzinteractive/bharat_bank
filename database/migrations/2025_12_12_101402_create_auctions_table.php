@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('auctions', function (Blueprint $table) {
             $table->id();
             $table->text('description')->required();
-            $table->string('slug')->unique();
-            $table->foreignId('state_id')->constrained('auction_states');
-            $table->foreignId('city_id')->constrained('auction_cities');
+            $table->string('slug');
+             $table->foreignId('pincode_id')->constrained('pincode');
             $table->decimal('price', 12, 2);
-            $table->unsignedInteger('sq_ft')->nullable();
+            $table->decimal('sq_ft', 8, 2)->nullable();
             $table->timestamps();
+            $table->unique(['slug']);
+            $table->index('pincode_id');
+            $table->index('price');
         });
     }
 

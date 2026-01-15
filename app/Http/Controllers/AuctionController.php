@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Auction;
-use App\Models\AuctionState;
-use App\Models\AuctionCity;
+use App\Models\State;
+use App\Models\City;
 use App\Models\Pincode;
+use App\Models\Town;
 use Illuminate\Http\Request;
 use App\Filters\SearchFilter;
 use App\Filters\DateRangeFilter;
@@ -16,6 +17,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class AuctionController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -49,60 +51,187 @@ class AuctionController extends Controller
      */
     public function create()
     {
-        $states = AuctionState::orderBy('name', 'asc')->get();
-        $cities = AuctionCity::orderBy('name', 'asc')->get();
-        return view('cms.auctions.create-auction',compact('states','cities'));
+        $states = State::orderBy('name', 'asc')->get();
+        $cities = City::orderBy('name', 'asc')->get();
+        $towns = Town::orderBy('name', 'asc')->get();
+        $pincodes = Pincode::orderBy('pincode', 'asc')->get();
+        return view('cms.auctions.create-auction',compact('states','cities' , 'towns' , 'pincodes'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'content'     => 'required|string',
+        'price'       => 'required|numeric|min:1',
+        'square_feet' => 'nullable|numeric|min:1',
+
+        'state_id' => 'required',
+        'city_id'  => 'required',
+        'town_id'  => 'required',
+
+        'pincode_id' => 'required_unless:town_id,add_new',
+
+        'new_city'    => 'nullable|required_if:city_id,add_new|string|max:255',
+        'new_town'    => 'nullable|required_if:town_id,add_new|string|max:255',
+        'new_pincode' => 'nullable|required_if:town_id,add_new|digits:6',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
+        $stateId = $request->state_id === 'add_new'
+            ? State::firstOrCreate(['name' => $request->new_state])->id
+            : (int) $request->state_id;
+
+        $cityId = $request->city_id === 'add_new'
+            ? City::firstOrCreate([
+                'name' => $request->new_city,
+                'state_id' => $stateId
+            ])->id
+            : (int) $request->city_id;
+
+        $townId = $request->town_id === 'add_new'
+            ? Town::firstOrCreate([
+                'name' => $request->new_town,
+                'city_id' => $cityId
+            ])->id
+            : (int) $request->town_id;
+
+        if ($request->town_id === 'add_new') {
+            $pincodeId = Pincode::firstOrCreate([
+                'pincode' => $request->new_pincode,
+                'town_id' => $townId
+            ])->id;
+        } else {
+            $pincodeId = (int) $request->pincode_id;
+        }
+
+        Auction::create([
+            'description' => Purifier::clean($validated['content']),
+            'pincode_id'  => $pincodeId,
+            'price'       => $validated['price'],
+            'sq_ft'       => $validated['square_feet'] ?? null,
+        ]);
+
+        DB::commit();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Auction created successfully',
+            'redirectUrl' => 'cms-admin/auctions'
+        ]);
+
+    } catch (\Throwable $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+   public function edit($id)
+    {
+        $auction = Auction::with([
+            'pincode.town.city.state'
+        ])->findOrFail($id);
+
+        $states = State::all();
+
+        $cities = City::where(
+            'state_id',
+            $auction->pincode->town->city->state->id
+        )->get();
+
+        $towns = Town::where(
+            'city_id',
+            $auction->pincode->town->city->id
+        )->get();
+
+        $pincodes = Pincode::where(
+            'town_id',
+            $auction->pincode->town->id
+        )->get();
+
+        return view('cms.auctions.edit-auction', compact(
+            'auction', 'states', 'cities', 'towns', 'pincodes'
+        ));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'content'     => 'required|string',
             'price'       => 'required|numeric|min:1',
             'square_feet' => 'nullable|numeric|min:1',
-            'state_id'  => 'required',
-            'new_state' => 'nullable|required_if:state_id,add_new|string|max:255',
+
+            'state_id' => 'required',
             'city_id'  => 'required',
-            'new_city' => 'nullable|required_if:city_id,add_new|string|max:255',
+            'town_id'  => 'required',
 
-            'pincode_id'  => 'nullable|exists:pincode,id',
-            'new_pincode' => 'nullable|required_if:city_id,add_new|digits:6',
+            'pincode_id' => 'required_unless:town_id,add_new',
+
+            'new_state'   => 'nullable|required_if:state_id,add_new|string|max:255',
+            'new_city'    => 'nullable|required_if:city_id,add_new|string|max:255',
+            'new_town'    => 'nullable|required_if:town_id,add_new|string|max:255',
+            'new_pincode' => 'nullable|required_if:town_id,add_new|digits:6',
         ]);
-
 
         DB::beginTransaction();
 
         try {
-            if ($request->state_id === 'add_new') {
-                $state = AuctionState::firstOrCreate(['name' => $request->new_state]);
-                $stateId = $state->id;
+
+            $auction = Auction::findOrFail($id);
+
+            /* ---------------- STATE ---------------- */
+            $stateId = $request->state_id === 'add_new'
+                ? State::firstOrCreate([
+                    'name' => trim(strip_tags($request->new_state))
+                ])->id
+                : (int) $request->state_id;
+
+            /* ---------------- CITY ---------------- */
+            $cityId = $request->city_id === 'add_new'
+                ? City::firstOrCreate([
+                    'name'     => trim(strip_tags($request->new_city)),
+                    'state_id'=> $stateId
+                ])->id
+                : (int) $request->city_id;
+
+            /* ---------------- TOWN ---------------- */
+            $townId = $request->town_id === 'add_new'
+                ? Town::firstOrCreate([
+                    'name'    => trim(strip_tags($request->new_town)),
+                    'city_id'=> $cityId
+                ])->id
+                : (int) $request->town_id;
+
+            /* ---------------- PINCODE ---------------- */
+            if ($request->town_id === 'add_new') {
+                $pincodeId = Pincode::firstOrCreate([
+                    'pincode' => $request->new_pincode,
+                    'town_id'=> $townId
+                ])->id;
             } else {
-                $stateId = (int) $request->state_id;
+                $pincodeId = (int) $request->pincode_id;
             }
 
-            if ($request->city_id === 'add_new') {
-                $pincodeId = $request->filled('new_pincode')
-                    ? Pincode::firstOrCreate(['pincode' => $request->new_pincode])->id
-                    : (int) $request->pincode_id;
-
-                $city = AuctionCity::firstOrCreate(
-                    ['name' => $request->new_city, 'state_id' => $stateId],
-                    ['pincode_id' => $pincodeId]
-                );
-                $cityId = $city->id;
-            } else {
-                $cityId = (int) $request->city_id;
-            }
-
-
-            // Create auction
-            $auction = Auction::create([
+            /* ---------------- UPDATE AUCTION ---------------- */
+            $auction->update([
                 'description' => Purifier::clean($validated['content']),
-                'state_id'    => $stateId,
-                'city_id'     => $cityId,
+                'pincode_id'  => $pincodeId,
                 'price'       => $validated['price'],
                 'sq_ft'       => $validated['square_feet'] ?? null,
             ]);
@@ -110,125 +239,22 @@ class AuctionController extends Controller
             DB::commit();
 
             return response()->json([
-                'status' => 'success',
-                'message' => 'Project Created Successfully',
+                'status'  => 'success',
+                'message' => 'Auction updated successfully',
                 'redirectUrl' => 'cms-admin/auctions'
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+
             DB::rollBack();
+
             return response()->json([
-                'status' => 'error',
-                'message' => 'Something went wrong: ' . $e->getMessage()
+                'status'  => 'error',
+                'message' => $e->getMessage()
             ], 500);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Auction $auction)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $auction = Auction::where('id', $id)
-                    ->firstOrFail();
-        $states = AuctionState::orderBy('name', 'asc')->get();
-        $cities = AuctionCity::orderBy('name', 'asc')->get();
-        return view('cms.auctions.edit-auction',compact('states','cities', 'auction'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-{
-    $request->validate([
-        'content'     => 'required|string',
-        'price'       => 'required|numeric|min:1',
-        'square_feet' => 'nullable|numeric|min:1',
-
-        'state_id'  => 'required',
-        'new_state' => 'nullable|required_if:state_id,add_new|string|max:255',
-
-        'city_id'  => 'required',
-        'new_city' => 'nullable|required_if:city_id,add_new|string|max:255',
-
-        'pincode_id'  => 'nullable|exists:pincode,id',
-        'new_pincode' => 'nullable|required_if:city_id,add_new|digits:6',
-    ]);
-
-    DB::beginTransaction();
-
-    try {
-        $auction = Auction::findOrFail($id);
-
-        if ($request->state_id === 'add_new') {
-            $state = AuctionState::firstOrCreate([
-                'name' => trim(strip_tags($request->new_state))
-            ]);
-            $stateId = $state->id;
-        } else {
-            $stateId = (int) $request->state_id;
-        }
-
-        if ($request->city_id === 'add_new') {
-            if ($request->filled('new_pincode')) {
-                $pincode = Pincode::firstOrCreate([
-                    'pincode' => $request->new_pincode
-                ]);
-                $pincodeId = $pincode->id;
-            } elseif ($request->filled('pincode_id')) {
-                $pincodeId = (int) $request->pincode_id;
-            } else {
-                throw new \Exception('Pincode is required.');
-            }
-
-            $city = AuctionCity::firstOrCreate(
-                [
-                    'name'     => trim(strip_tags($request->new_city)),
-                    'state_id' => $stateId
-                ],
-                [
-                    'pincode_id' => $pincodeId
-                ]
-            );
-            $cityId = $city->id;
-        } else {
-            $cityId = (int) $request->city_id;
-        }
-
-        $auction->description = Purifier::clean($request->content);
-        $auction->price       = $request->price;
-        $auction->sq_ft       = $request->square_feet ?? null;
-        $auction->state_id    = $stateId;
-        $auction->city_id     = $cityId;
-
-        $auction->save();
-
-        DB::commit();
-
-        return response()->json([
-            'status'  => 'success',
-            'message' => 'Auction Updated Successfully',
-            'redirectUrl' => 'cms-admin/auctions'
-        ]);
-
-    } catch (\Exception $e) {
-        DB::rollBack();
-
-        return response()->json([
-            'status'  => 'error',
-            'message' => 'Failed: ' . $e->getMessage()
-        ], 500);
-    }
-}
 
 
 
