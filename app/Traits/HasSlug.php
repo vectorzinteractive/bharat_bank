@@ -17,7 +17,6 @@ trait HasSlug
         });
 
         static::updating(function ($model) {
-            // Regenerate slug only if source field changed
             if ($model->isDirty($model->slugSource)) {
                 $model->generateSlug();
             }
@@ -29,22 +28,19 @@ trait HasSlug
      */
     public function generateSlug()
     {
-        $slugColumn = $this->slugColumn ?? 'slug';        // Default column: 'slug'
-        $slugLength = $this->slugLength ?? 10;           // Default max length: 50
+        $slugColumn = $this->slugColumn ?? 'slug';
+        $slugLength = $this->slugLength ?? 15;
         $value = $this->{$this->slugSource};
 
-        // Create initial slug
         $slug = Str::slug(substr($value, 0, $slugLength));
         $original = $slug;
         $count = 1;
 
-        // Ensure uniqueness
         while (self::where($slugColumn, $slug)
             ->where('id', '!=', $this->id ?? 0)
             ->exists()) {
 
             $suffix = '-' . $count++;
-            // Truncate original slug to fit max length including suffix
             $slug = Str::limit($original, $slugLength - strlen($suffix), '') . $suffix;
         }
 

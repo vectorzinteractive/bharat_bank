@@ -57,6 +57,18 @@
                             </a>
                         </li>
 
+                         <li class="dropdown-item">
+                            <a href="{{ url("cms-admin/unclaimed-deposit") }}" class="sidebar-link">
+                                <div class="sb-drpdn-head">
+                                    <div class="head-icon">
+                                        <i data-duoicon="box-2"></i>
+                                    </div>
+                                    <span>Unclaimed Deposit</span>
+                                </div>
+                            </a>
+                        </li>
+
+
                         <li class="dropdown-item">
                             <a href="" class="sidebar-link menu-toggle">
                                 <div class="sb-drpdn-head">

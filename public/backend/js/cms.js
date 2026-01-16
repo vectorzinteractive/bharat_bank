@@ -1,4 +1,4 @@
-const baseurl = "http://localhost:8080/websites/bharatbank/laravel-base-folder/public/";
+// const baseurl = "http://localhost:8080/websites/bharatbank/laravel-base-folder/public/";
 const submitBtn = document.getElementById("submit-btn");
 const responseBlock = document.getElementById("response-msg");
 // ---------sidebar-collpase-start--------------------
@@ -1019,6 +1019,201 @@ function showErrorMessage(target, error) {
     container.innerHTML = message;
 
 }
+
+function handleAddNew(selectId, type) {
+    const select = document.getElementById(selectId);
+    const wrapper = document.getElementById(`add_${type}_wrapper`);
+
+    select.addEventListener('change', function() {
+        if (this.value === 'add_new') {
+            wrapper.classList.remove('d-none');
+        } else {
+            wrapper.classList.add('d-none');
+        }
+    });
+}
+
+function enableSelectWithAddNew(select, childName) {
+    select.disabled = false;
+    if (!select.querySelector('option[value="add_new"]')) {
+        select.appendChild(new Option('Add New', 'add_new'));
+    }
+    if (!select.querySelector('option[value=""]')) {
+        select.insertBefore(new Option(`Select ${capitalize(childName)}`, ''), select.firstChild);
+    }
+    select.value = ''; // reset value to placeholder
+}
+
+
+function LocationLoader() {
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
+
+/**
+ * Defines parent → child hierarchy
+ *
+ */
+const hierarchy = {
+    state:   { child: 'city' },
+    city:    { child: 'town' },
+    town:    { child: 'pincode' },
+    pincode: { child: null }
+};
+
+/**
+ * Initializing a dropdown with generic behavior
+ */
+function setupLocationSelect(level) {
+    const select  = document.getElementById(`${level}_select`);
+    const wrapper = document.getElementById(`add_${level}_wrapper`);
+    if (!select) return;
+
+    select.addEventListener('change', function () {
+        const value = this.value;
+
+        resetBelow(level);
+        if (wrapper) {
+            wrapper.classList.toggle('d-none', value !== 'add_new');
+        }
+
+        const child = hierarchy[level].child;
+        if (!child) return;
+
+        const childSelect = document.getElementById(`${child}_select`);
+
+        if (value === 'add_new') {
+            enableSelectWithAddNew(childSelect, child);
+            return;
+        }
+        if (value) {
+            loadChildren(level, value);
+        }
+    });
+}
+
+
+/**
+ * Resets all dropdowns and inputs
+ */
+function resetBelow(level) {
+    let next = hierarchy[level].child;
+
+    while (next) {
+        document
+            .getElementById(`add_${next}_wrapper`)
+            ?.classList.add('d-none');
+
+        const select = document.getElementById(`${next}_select`);
+        select.innerHTML = `<option value="" selected>Select ${capitalize(next)}</option>`;
+        select.disabled = true;
+
+        next = hierarchy[next].child;
+    }
+}
+
+/**
+ * Loads child options via AJAX
+ */
+function loadChildren(parentType, parentId) {
+    fetch(`${baseurl}cms-admin/location/children?type=${parentType}&id=${parentId}`)
+        .then(res => res.json())
+        .then(data => {
+            const child = hierarchy[parentType].child;
+            const select = document.getElementById(`${child}_select`);
+
+            select.innerHTML = `<option value="">Select ${capitalize(child)}</option>`;
+
+            data.forEach(item => {
+                select.appendChild(new Option(item.label, item.id));
+            });
+
+            select.appendChild(new Option('Add New', 'add_new'));
+            select.disabled = false;
+        });
+}
+
+
+/**
+ * Capitalizes labels
+ */
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/**
+ * INIT – attached logic to all dropdowns
+ */
+['state','city','town','pincode'].forEach(setupLocationSelect);
+
+const chain = ['state', 'city', 'town', 'pincode'];
+// function applyDependency(level) {
+//     const index = chain.indexOf(level);
+//     const currentSelect = document.getElementById(`${level}_select`);
+//     const isAddNew = currentSelect.value === 'add_new';
+
+//     for (let i = index + 1; i < chain.length; i++) {
+//         const nextLevel = chain[i];
+//         const select  = document.getElementById(`${nextLevel}_select`);
+//         const wrapper = document.getElementById(`add_${nextLevel}_wrapper`);
+
+//         if (!select) continue;
+
+//         if (isAddNew) {
+//             select.disabled = false;
+//             wrapper?.classList.remove('d-none');
+//             select.value = 'add_new';
+//         } else {
+//             select.disabled = true;
+//             select.value = '';
+//             wrapper?.classList.add('d-none');
+//         }
+//     }
+// }
+function applyDependency(level) {
+    const index = chain.indexOf(level);
+    const currentSelect = document.getElementById(`${level}_select`);
+    const isAddNew = currentSelect.value === 'add_new';
+
+    for (let i = index + 1; i < chain.length; i++) {
+        const nextLevel = chain[i];
+        const select  = document.getElementById(`${nextLevel}_select`);
+        const wrapper = document.getElementById(`add_${nextLevel}_wrapper`);
+
+        if (!select) continue;
+
+        if (isAddNew) {
+            select.disabled = false;
+            wrapper?.classList.remove('d-none');
+        } else {
+            select.disabled = true;
+            select.value = '';
+            wrapper?.classList.add('d-none');
+        }
+    }
+}
+
+
+chain.forEach(level => {
+    const select = document.getElementById(`${level}_select`);
+    const wrapper = document.getElementById(`add_${level}_wrapper`);
+
+    if (!select) return;
+
+    select.addEventListener('change', function () {
+
+        wrapper?.classList.toggle('d-none', this.value !== 'add_new');
+
+        applyDependency(level);
+
+        if (this.value && this.value !== 'add_new') {
+            loadChildren(level, this.value);
+        }
+    });
+});
+
+}
+
+
+
 
 if (page_id === "login-page") {
     // -------------------function-to-show-hide-password-start-here--------------------------

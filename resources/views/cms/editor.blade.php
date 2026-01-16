@@ -17,24 +17,24 @@ tinymce.init({
     remove_script_host: false,
     forced_root_block: false,
 
-    plugins: {!! $editorType === 'auction'
+    plugins: {!! $editorType === 'textData'
         ? "'lists link'"
         : "'anchor autolink charmap codesample emoticons link lists media searchreplace table visualblocks wordcount image'"
     !!},
 
 
-    toolbar: {!! $editorType === 'auction'
+    toolbar: {!! $editorType === 'textData'
     ? "'undo redo | bold italic subscript | bullist numlist | link'"
     : "'undo redo | blocks | bold italic underline subscript | alignleft aligncenter alignright alignjustify | bullist numlist | link image media table | readmoreBtn | removeformat'"
 !!},
 
 
-    menubar: {!! $editorType === 'auction'
+    menubar: {!! $editorType === 'textData'
         ? 'false'
         : "'file edit view insert format tools table help'"
     !!},
 
-    @if($editorType !== 'auction')
+    @if($editorType !== 'textData')
         image_title: true,
         automatic_uploads: true,
         images_upload_handler: imageUploadHandler,
@@ -42,7 +42,7 @@ tinymce.init({
     @endif
 });
 
-@if($editorType !== 'auction')
+@if($editorType !== 'textData')
 function imageUploadHandler(blobInfo, progress) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();

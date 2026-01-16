@@ -11,6 +11,7 @@ use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
 use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuctionController;
+use App\Http\Controllers\UnclaimedDepositController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\TownController;
@@ -23,7 +24,8 @@ Route::get('/', function () {
 });
 
 Route::get('/auctions', [ViewPageController::class, 'auctions']);
-Route::post('/auctions/filter', [ViewPageController::class, 'filterAuctions']);
+Route::get('/unclaimed-deposit', [ViewPageController::class, 'unclaimedDeposit']);
+// Route::post('/auctions/filter', [ViewPageController::class, 'filterAuctions']);
 
 
 
@@ -178,5 +180,6 @@ Route::prefix('cms-admin')->middleware('auth')->group(function () {
     Route::resource('states', StateController::class)->names('states');
     Route::get('/location/children', [LocationController::class, 'children']);
     Route::resource('auctions', AuctionController::class)->names('auctions');
+    Route::resource('unclaimed-deposit', UnclaimedDepositController::class)->names(names: 'unclaimed-deposit');
 
 });

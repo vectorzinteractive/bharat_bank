@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Auction;
+use App\Models\UnclaimedDeposit;
+use Illuminate\Http\Request;
 use App\Models\State;
 use App\Models\City;
 use App\Models\Pincode;
 use App\Models\Town;
-use Illuminate\Http\Request;
 use App\Filters\SearchFilter;
 use App\Filters\DateRangeFilter;
 use Illuminate\Support\Facades\DB;
@@ -15,35 +15,32 @@ use Mews\Purifier\Facades\Purifier;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
-class AuctionController extends Controller
+class UnclaimedDepositController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
-
     public function index(Request $request)
     {
-
         $currentSort = $request->query('sort', '-created_at');
         $currentOrder = str_starts_with($currentSort, '-') ? 'desc' : 'asc';
         $currentSort = ltrim($currentSort, '-');
 
-        $projects = QueryBuilder::for(Auction::class)
+        $projects = QueryBuilder::for(UnclaimedDeposit::class)
             ->allowedFilters([
-                AllowedFilter::custom('search', new SearchFilter(['description'])),
+                AllowedFilter::custom('search', new SearchFilter(['name', 'udrn_id', 'description'])),
                 AllowedFilter::custom('date_range', new DateRangeFilter('created_at')),
             ])
-            ->allowedSorts(['description', 'created_at'])
+            ->allowedSorts(['name', 'udrn_id', 'description', 'created_at'])
             ->defaultSort('-created_at')
             ->paginate(20)
             ->appends($request->query());
 
         if ($request->ajax()) {
-            return view('cms.auctions.auction-data', compact('projects', 'currentSort', 'currentOrder'))->render();
+            return view('cms.unclaimed-deposit.unclaimed-deposit-data', compact('projects', 'currentSort', 'currentOrder'))->render();
         }
 
-        return view('cms.auctions.auctions', compact('projects', 'currentSort', 'currentOrder'));
+        return view('cms.unclaimed-deposit.unclaimed-deposit', compact('projects', 'currentSort', 'currentOrder'));
     }
 
     /**
@@ -55,93 +52,101 @@ class AuctionController extends Controller
         $cities = City::orderBy('name', 'asc')->get();
         $towns = Town::orderBy('name', 'asc')->get();
         $pincodes = Pincode::orderBy('pincode', 'asc')->get();
-        return view('cms.auctions.create-auction',compact('states','cities' , 'towns' , 'pincodes'));
+        return view('cms.unclaimed-deposit.create-page',compact('states','cities' , 'towns' , 'pincodes'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-   public function store(Request $request)
-{
-    $validated = $request->validate([
-        'content'     => 'required|string',
-        'price'       => 'required|numeric|min:1',
-        'square_feet' => 'nullable|numeric|min:1',
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'content'     => 'required|string',
+            'name'       => 'required|string',
+            'udrn_id' => 'required|digits:9',
 
-        'state_id' => 'required',
-        'city_id'  => 'required',
-        'town_id'  => 'required',
+            'state_id' => 'required',
+            'city_id'  => 'required',
+            'town_id'  => 'required',
 
-        'pincode_id' => 'required_unless:town_id,add_new',
+            'pincode_id' => 'required_unless:town_id,add_new',
 
-        'new_city'    => 'nullable|required_if:city_id,add_new|string|max:255',
-        'new_town'    => 'nullable|required_if:town_id,add_new|string|max:255',
-        'new_pincode' => 'nullable|required_if:town_id,add_new|digits:6',
-    ]);
+            'new_city'    => 'nullable|required_if:city_id,add_new|string|max:255',
+            'new_town'    => 'nullable|required_if:town_id,add_new|string|max:255',
+            'new_pincode' => 'nullable|required_if:town_id,add_new|digits:6',
+        ]);
 
-    DB::beginTransaction();
+        DB::beginTransaction();
 
-    try {
+        try {
 
-        $stateId = $request->state_id === 'add_new'
-            ? State::firstOrCreate(['name' => $request->new_state])->id
-            : (int) $request->state_id;
+            $stateId = $request->state_id === 'add_new'
+                ? State::firstOrCreate(['name' => $request->new_state])->id
+                : (int) $request->state_id;
 
-        $cityId = $request->city_id === 'add_new'
-            ? City::firstOrCreate([
-                'name' => $request->new_city,
-                'state_id' => $stateId
-            ])->id
-            : (int) $request->city_id;
+            $cityId = $request->city_id === 'add_new'
+                ? City::firstOrCreate([
+                    'name' => $request->new_city,
+                    'state_id' => $stateId
+                ])->id
+                : (int) $request->city_id;
 
-        $townId = $request->town_id === 'add_new'
-            ? Town::firstOrCreate([
-                'name' => $request->new_town,
-                'city_id' => $cityId
-            ])->id
-            : (int) $request->town_id;
+            $townId = $request->town_id === 'add_new'
+                ? Town::firstOrCreate([
+                    'name' => $request->new_town,
+                    'city_id' => $cityId
+                ])->id
+                : (int) $request->town_id;
 
-        if ($request->town_id === 'add_new') {
-            $pincodeId = Pincode::firstOrCreate([
-                'pincode' => $request->new_pincode,
-                'town_id' => $townId
-            ])->id;
-        } else {
-            $pincodeId = (int) $request->pincode_id;
+            if ($request->town_id === 'add_new') {
+                $pincodeId = Pincode::firstOrCreate([
+                    'pincode' => $request->new_pincode,
+                    'town_id' => $townId
+                ])->id;
+            } else {
+                $pincodeId = (int) $request->pincode_id;
+            }
+
+            UnclaimedDeposit::create([
+                'description' => Purifier::clean($validated['content']),
+                'pincode_id'  => $pincodeId,
+                'name'       => $validated['name'],
+                'udrn_id'       => $validated['udrn_id'],
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Created successfully',
+                'redirectUrl' => 'cms-admin/unclaimed-deposit'
+            ]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
         }
-
-        Auction::create([
-            'description' => Purifier::clean($validated['content']),
-            'pincode_id'  => $pincodeId,
-            'price'       => $validated['price'],
-            'sq_ft'       => $validated['square_feet'] ?? null,
-        ]);
-
-        DB::commit();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Auction created successfully',
-            'redirectUrl' => 'cms-admin/auctions'
-        ]);
-
-    } catch (\Throwable $e) {
-
-        DB::rollBack();
-
-        return response()->json([
-            'status' => 'error',
-            'message' => $e->getMessage()
-        ], 500);
     }
-}
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(UnclaimedDeposit $unclaimedDeposit)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
-   public function edit($id)
+    public function edit($id)
     {
-        $auction = Auction::with([
+        $data = UnclaimedDeposit::with([
             'pincode.town.city.state'
         ])->findOrFail($id);
 
@@ -149,21 +154,21 @@ class AuctionController extends Controller
 
         $cities = City::where(
             'state_id',
-            $auction->pincode->town->city->state->id
+            $data->pincode->town->city->state->id
         )->get();
 
         $towns = Town::where(
             'city_id',
-            $auction->pincode->town->city->id
+            $data->pincode->town->city->id
         )->get();
 
         $pincodes = Pincode::where(
             'town_id',
-            $auction->pincode->town->id
+            $data->pincode->town->id
         )->get();
 
-        return view('cms.auctions.edit-auction', compact(
-            'auction', 'states', 'cities', 'towns', 'pincodes'
+        return view('cms.unclaimed-deposit.edit-page', compact(
+            'data', 'states', 'cities', 'towns', 'pincodes'
         ));
     }
 
@@ -174,16 +179,12 @@ class AuctionController extends Controller
     {
         $validated = $request->validate([
             'content'     => 'required|string',
-            'price'       => 'required|numeric|min:1',
-            'square_feet' => 'nullable|numeric|min:1',
-
+            'name'       => 'required|string',
+            'udrn_id' => 'required|digits:9',
             'state_id' => 'required',
             'city_id'  => 'required',
             'town_id'  => 'required',
-
             'pincode_id' => 'required_unless:town_id,add_new',
-
-            'new_state'   => 'nullable|required_if:state_id,add_new|string|max:255',
             'new_city'    => 'nullable|required_if:city_id,add_new|string|max:255',
             'new_town'    => 'nullable|required_if:town_id,add_new|string|max:255',
             'new_pincode' => 'nullable|required_if:town_id,add_new|digits:6',
@@ -193,7 +194,7 @@ class AuctionController extends Controller
 
         try {
 
-            $auction = Auction::findOrFail($id);
+            $data = UnclaimedDeposit::findOrFail($id);
 
             /* ---------------- STATE ---------------- */
             $stateId = $request->state_id === 'add_new'
@@ -229,19 +230,19 @@ class AuctionController extends Controller
             }
 
             /* ---------------- UPDATE AUCTION ---------------- */
-            $auction->update([
+            $data->update([
                 'description' => Purifier::clean($validated['content']),
                 'pincode_id'  => $pincodeId,
-                'price'       => $validated['price'],
-                'sq_ft'       => $validated['square_feet'] ?? null,
+                'name'       => $validated['name'],
+                'udrn_id'       => $validated['udrn_id'],
             ]);
 
             DB::commit();
 
             return response()->json([
                 'status'  => 'success',
-                'message' => 'Auction updated successfully',
-                'redirectUrl' => 'cms-admin/auctions'
+                'message' => 'Updated successfully',
+                'redirectUrl' => 'cms-admin/unclaimed-deposit'
             ]);
 
         } catch (\Throwable $e) {
@@ -263,7 +264,7 @@ class AuctionController extends Controller
         DB::beginTransaction();
 
         try {
-            $project = Auction::findOrFail($id);
+            $project = UnclaimedDeposit::findOrFail($id);
 
             $project->delete();
 
@@ -286,7 +287,7 @@ class AuctionController extends Controller
         $projectIds = $request->selected_ids;
 
         if (!empty($projectIds)) {
-            Auction::whereIn('id', $projectIds)->delete();
+            UnclaimedDeposit::whereIn('id', $projectIds)->delete();
             return response()->json(['message' => 'Selected Data deleted permanently.']);
         }
 

@@ -18,7 +18,7 @@
     <meta name="twitter:url" content="" />
     <meta name="twitter:card" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @include('cms.cms-styles')<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    @include('cms.cms-styles')
 
 </head>
 
@@ -188,21 +188,7 @@
     </div>
             @include('cms.confirmation-model')
             @include('cms.cms-scripts')
-            @include('cms.editor', ['editorType' => 'auction'])
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-            <script>
-// $(document).ready(function () {
-//     $('#city_select').select2({
-//         placeholder: 'Select City',
-//         allowClear: true,
-//         width: '100%'
-//     });
-// });
-
-
-
-</script>
+            @include('cms.editor', ['editorType' => 'textData'])
 
 </body>
 

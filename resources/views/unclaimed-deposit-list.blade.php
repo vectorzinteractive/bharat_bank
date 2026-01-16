@@ -27,7 +27,7 @@
     @include('styles')
 </head>
 
-<body id="auction-list">
+<body id="unclaimed-deposit-list">
     <div class="wrapper">
         {{-- @include('header') --}}
 
@@ -44,7 +44,7 @@
                         <div class="col-lg-12">
                             <div class="relative overflow-hidden">
                                 <div class="wow fadeInUpBig" data-wow-duration="1.5s">
-                                    <h1 class="fs-120 text-uppercase fs-sm-10vw mb-2 lh-1">Auction</h1>
+                                    <h1 class="fs-120 text-uppercase fs-sm-10vw mb-2 lh-1">Unclaimed Deposits</h1>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
     <div class="col-lg-3">
         <div class="filter-panel">
             <div class="filter-section">
-                <input type="text" id="auction-search" placeholder="Search description, state, city, town" class="form-control mb-3">
+                <input type="text" id="unclaimedDeposit-search" placeholder="Search description, state, city, town" class="form-control mb-3">
             </div>
 
             <div class="filter-section">
@@ -84,23 +84,12 @@
                 @endforeach
             </div>
 
-            <div class="filter-section">
-                <strong>Price</strong>
-                <input type="number" id="price_min" placeholder="Min Price" class="form-control mb-2">
-                <input type="number" id="price_max" placeholder="Max Price" class="form-control">
-            </div>
-
-            <div class="filter-section">
-                <strong>Sq.Ft</strong>
-                <input type="number" id="sqft_min" placeholder="Min Sq.Ft" class="form-control mb-2">
-                <input type="number" id="sqft_max" placeholder="Max Sq.Ft" class="form-control">
-            </div>
         </div>
     </div>
 
     <div class="col-lg-9">
-        <div id="auction-results">
-            @include('auction-data', ['auctions' => $auctions])
+        <div id="unclaimed-results">
+            @include('unclaimed-deposit-data', ['data' => $data])
         </div>
     </div>
 </div>
