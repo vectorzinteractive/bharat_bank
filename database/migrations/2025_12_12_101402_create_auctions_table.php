@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('description')->required();
             $table->string('slug');
              $table->foreignId('pincode_id')->constrained('pincode');
-            $table->decimal('price', 12, 2);
+            $table->decimal('price', 18, 2);
             $table->decimal('sq_ft', 8, 2)->nullable();
             $table->timestamps();
             $table->unique(['slug']);

@@ -100,7 +100,7 @@
 
     <div class="col-lg-9">
         <div id="auction-results">
-            @include('auction-data', ['auctions' => $auctions])
+            @include('auction-data')
         </div>
     </div>
 </div>

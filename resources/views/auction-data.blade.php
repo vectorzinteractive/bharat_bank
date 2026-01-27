@@ -1,4 +1,4 @@
-@if($auctions->count())
+@if($data->count())
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -11,14 +11,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($auctions as $index => $auction)
+        @foreach($data as $index => $item)
         <tr>
             <td>{{ $index + 1 }}</td>
-            <td>{!! $auction->description !!}</td>
-            <td>{{ $auction->pincode->town->city->state->name ?? 'N/A' }}</td>
-            <td>{{ $auction->pincode->town->city->name ?? 'N/A' }}</td>
-            <td>{{ $auction->pincode->town->name ?? 'N/A' }}</td>
-            <td>{{ number_format($auction->price) }}</td>
+            <td>{!! $item->description !!}</td>
+            <td>{{ $item->pincode->town->city->state->name ?? 'N/A' }}</td>
+            <td>{{ $item->pincode->town->city->name ?? 'N/A' }}</td>
+            <td>{{ $item->pincode->town->name ?? 'N/A' }}</td>
+            <td>{{ number_format($item->price) }}</td>
         </tr>
         @endforeach
     </tbody>

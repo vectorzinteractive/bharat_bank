@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Traits\HasSlug;
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -9,6 +10,7 @@ class UnclaimedDeposit extends Model
 {
      use HasFactory;
     use HasSlug;
+     use Filterable;
     protected $slugSource = 'name';
     protected $slugLength = 5;
 
