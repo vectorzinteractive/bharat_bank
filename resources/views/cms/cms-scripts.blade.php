@@ -5,5 +5,5 @@
 <script>window.baseurl = "{{ config('app.url') }}";</script>
 <script src="{{ asset('/backend/js/cms.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/backend/js/cropper.min.js') }}"></script>
-<script src="{{ asset('/backend/js/backend.js') }}" type="text/javascript"></script>
+{{-- <script src="{{ asset('/backend/js/backend.js') }}" type="text/javascript"></script> --}}
 

@@ -1,0 +1,32 @@
+{
+    "name": "vectorzinteractive/location-module",
+    "type": "laravel-module",
+    "description": "laravel-module",
+    "authors": [
+        {
+            "name": "vectorzinteractive",
+            "email": "vectorz.interactive@gmail.com"
+        }
+    ],
+    "extra": {
+        "module-dir": "Modules",
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Location\\": "app/",
+            "Modules\\Location\\Database\\Factories\\": "database/factories/",
+            "Modules\\Location\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Location\\Tests\\": "tests/"
+        }
+    }
+}

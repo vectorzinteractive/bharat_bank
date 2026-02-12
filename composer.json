@@ -5,6 +5,20 @@
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/vectorzinteractive/auction-module.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/vectorzinteractive/location-module.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/vectorzinteractive/unclaimeddeposit-module.git"
+        }
+    ],
     "require": {
         "php": "^8.2",
         "joshbrw/laravel-module-installer": "^2.0",
@@ -13,7 +27,11 @@
         "laravel/tinker": "^2.10.1",
         "mews/purifier": "^3.4",
         "nwidart/laravel-modules": "^12.0",
-        "spatie/laravel-query-builder": "^6.3"
+        "spatie/laravel-permission": "^6.0",
+        "spatie/laravel-query-builder": "^6.3",
+        "vectorzinteractive/auction-module": "dev-main",
+        "vectorzinteractive/location-module": "dev-main",
+        "vectorzinteractive/unclaimeddeposit-module": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -29,7 +47,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/module_access.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

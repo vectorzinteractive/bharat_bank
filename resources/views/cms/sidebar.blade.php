@@ -46,6 +46,7 @@
                 <div class="sidebar-menu">
                     <ul>
 
+                        @if(canAccessModule('auction'))
                         <li class="dropdown-item">
                             <a href="{{ url("cms-admin/auctions") }}" class="sidebar-link">
                                 <div class="sb-drpdn-head">
@@ -56,7 +57,9 @@
                                 </div>
                             </a>
                         </li>
+                        @endif
 
+                        @if(canAccessModule('unclaimeddeposit'))
                          <li class="dropdown-item">
                             <a href="{{ url("cms-admin/unclaimed-deposit") }}" class="sidebar-link">
                                 <div class="sb-drpdn-head">
@@ -67,8 +70,9 @@
                                 </div>
                             </a>
                         </li>
+                        @endif
 
-
+                        @if(canAccessModule('location'))
                         <li class="dropdown-item">
                             <a href="" class="sidebar-link menu-toggle">
                                 <div class="sb-drpdn-head">
@@ -97,6 +101,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
 
                         @php
                             use Nwidart\Modules\Facades\Module;
@@ -256,6 +261,20 @@
                             </ul>
                         </li>
                         @endif
+
+                        @if (auth()->user()->hasAnyRole(['admin', 'super-admin']))
+                            <li class="dropdown-item">
+                                <a href="{{ url('cms-admin/users') }}" class="sidebar-link">
+                                    <div class="sb-drpdn-head">
+                                        <div class="head-icon">
+                                            <i data-duoicon="dashboard"></i>
+                                        </div>
+                                        <span>Users</span>
+                                    </div>
+                                </a>
+                            </li>
+                        @endif
+
 
 
                     </ul>

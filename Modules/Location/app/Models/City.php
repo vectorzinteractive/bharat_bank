@@ -1,0 +1,35 @@
+<?php
+
+namespace Modules\Location\Models;
+
+use App\Traits\HasSlug;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Location\Models\State;
+use Modules\Location\Models\Town;
+
+class City extends Model
+{
+    use HasFactory;
+    use HasSlug;
+
+    protected $table = 'cities';
+
+    protected $fillable = [
+        'state_id',
+        'name',
+        'slug',
+    ];
+
+    protected $slugSource = 'name';
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function towns()
+    {
+        return $this->hasMany(Town::class);
+    }
+}

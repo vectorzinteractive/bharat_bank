@@ -1,0 +1,11 @@
+{
+    "name": "UnclaimedDeposit",
+    "alias": "unclaimeddeposit",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\UnclaimedDeposit\\Providers\\UnclaimedDepositServiceProvider"
+    ],
+    "files": []
+}

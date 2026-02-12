@@ -18,6 +18,14 @@ use App\Http\Controllers\TownController;
 use App\Http\Controllers\PincodeController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ViewPageController;
+use App\Http\Controllers\Admin\UserController;
+
+Route::get('/role-test', function () {
+    return auth()->user()->hasRole('super-admin')
+        ? 'You are Super Admin'
+        : 'You are NOT Super Admin';
+})->middleware('auth');
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -171,15 +179,25 @@ Route::prefix('cms-admin')->middleware('auth')->group(function () {
     Route::post('/update-password', [ProfileController::class, 'updatePassword'])
     ->name('cmsadmin.update.password');
 
-    Route::delete('cities/bulk-delete-items', [CityController::class, 'bulkDelete'])->name('cityBulk');
-    Route::delete('states/bulk-delete-items', [StateController::class, 'bulkDelete'])->name('stateBulk');
-    Route::delete('auctions/bulk-delete-items', [AuctionController::class, 'bulkDelete'])->name('auctionBulk');
-    Route::resource('pincodes', PincodeController::class)->names(names: 'pincodes');
-    Route::resource('towns', TownController::class)->names(names: 'towns');
-    Route::resource('cities', CityController::class)->names('cities');
-    Route::resource('states', StateController::class)->names('states');
-    Route::get('/location/children', [LocationController::class, 'children']);
-    Route::resource('auctions', AuctionController::class)->names('auctions');
-    Route::resource('unclaimed-deposit', UnclaimedDepositController::class)->names(names: 'unclaimed-deposit');
+    //  Route::resource('users', UserController::class)->except(['show']);
+
+    // Route::delete('cities/bulk-delete-items', [CityController::class, 'bulkDelete'])->name('cityBulk');
+    // Route::delete('states/bulk-delete-items', [StateController::class, 'bulkDelete'])->name('stateBulk');
+    // Route::delete('auctions/bulk-delete-items', [AuctionController::class, 'bulkDelete'])->name('auctionBulk');
+    // Route::resource('pincodes', PincodeController::class)->names(names: 'pincodes');
+    // Route::resource('towns', TownController::class)->names(names: 'towns');
+    // Route::resource('cities', CityController::class)->names('cities');
+    // Route::resource('states', StateController::class)->names('states');
+    // Route::get('/location/children', [LocationController::class, 'children']);
+    // Route::resource('auctions', AuctionController::class)->names('auctions');
+    // Route::resource('unclaimed-deposit', UnclaimedDepositController::class)->names(names: 'unclaimed-deposit');
 
 });
+
+Route::prefix('cms-admin')
+    ->middleware(['auth', 'role:super-admin|admin'])
+    ->group(function () {
+
+        Route::resource('users', UserController::class)->except(['show']);
+
+    });

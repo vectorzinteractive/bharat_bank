@@ -1283,7 +1283,7 @@ if (page_id === "login-page") {
     // ---------------------login-validation-end-----------------------------
 }
 
-if (page_id === "register-page") {
+    if (page_id === "register-page" || page_id === "admin-register") {
 
         show_hide_password();
 
@@ -1296,13 +1296,15 @@ if (page_id === "register-page") {
                 $("#register-form").validate({
                     rules: {
                         email: { required: true },
-                        "name": { required: true, maxlength: 15 },
-                        password: { required: true, maxlength: 12, minlength: 8 }
+                        name: { required: true, maxlength: 15 },
+                        password: { required: true, maxlength: 12, minlength: 8 },
+                        role: { required: true, }
                     },
                     messages: {
                         email: { required: "* Please enter your email" },
-                        "name": { required: "* Please enter name", maxlength: "Max 15 characters" },
-                        password: { required: "* Please enter password", maxlength: "Max 12 characters", minlength: "Min 8 characters" }
+                        name: { required: "* Please enter name", maxlength: "Max 15 characters" },
+                        password: { required: "* Please enter password", maxlength: "Max 12 characters", minlength: "Min 8 characters" },
+                        role: { required: "* Please select Role" }
                     },
                     errorLabelContainer: $("#register-form div.error"),
                     submitHandler: function (form, event) {
@@ -1311,9 +1313,9 @@ if (page_id === "register-page") {
                         $('#response-animation').show();
                         $(createUserBtn).hide();
 
-                        // let url = page_id === "admin-register" ? baseurl + 'backend/users' : 'register';
+                        let url = page_id === "admin-register" ? baseurl + 'cms-admin/users' : 'register';
                         $.ajax({
-                            url: "register",
+                            url: url,
                             type: 'POST',
                             data: formData,
                             dataType: 'json',
@@ -1323,7 +1325,7 @@ if (page_id === "register-page") {
                                 $(createUserBtn).show();
 
                                 if (response.status === 'success') {
-                                    window.location.href = response.redirectUrl || baseurl + 'backend/users';
+                                    window.location.href = response.redirectUrl || baseurl + 'cms-admin/users';
                                 } else {
                                     showErrorMessage(registerResponse_msg, { responseJSON: { message: response.message } });
                                 }
@@ -1339,6 +1341,123 @@ if (page_id === "register-page") {
             }
         });
         // ---------------------register-validation-end-----------------------------
+    }
+
+    if(page_id === "admin-edit") {
+        // ---------------------update-validation-start-----------------------------
+        $(document).ready(function () {
+            var updateResponse_msg = document.getElementById('file2_err');
+            var updateUserBtn = document.getElementById('registerBtn');
+            var userId = document.getElementById('user-id').value;
+
+            if ($('#admin-update-form').length !== 0) {
+                $("#admin-update-form").validate({
+                    rules: {
+                        email: { required: true },
+                        name: { required: true, maxlength: 15 },
+                        password: { required: false, maxlength: 12, minlength: 8 },
+                        role: { required: true, }
+                    },
+                    messages: {
+                        email: { required: "* Please enter your email" },
+                        name: { required: "* Please enter name", maxlength: "Max 15 characters" },
+                        password: { required: "* Please enter password", maxlength: "Max 12 characters", minlength: "Min 8 characters" },
+                        role: { required: "* Please select Role" }
+                    },
+                    errorLabelContainer: $("#admin-update-form div.error"),
+                    submitHandler: function (form, event) {
+                        event.preventDefault();
+                        var formData = $(form).serialize();
+                        $('#response-animation').show();
+                        $(updateUserBtn).hide();
+                        $.ajax({
+                            url: baseurl + 'cms-admin/users/' + userId,
+                            type: 'POST',
+                            data: formData,
+                            dataType: 'json',
+                            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                            success: function (response) {
+                                $('#response-animation').hide();
+                                $(updateUserBtn).show();
+
+                                if (response.status === 'success') {
+                                     $('#loadingSpinner').hide();
+                                       openDynamicModal({
+                                            heading: 'Success',
+                                            message: response.message
+                                        });
+
+                                        setTimeout(function () {
+                                            if (response.redirectUrl) {
+                                                window.location.href = response.redirectUrl;
+                                            } else {
+                                                location.reload();
+                                            }
+                                        }, 2000);
+                                } else {
+                                    updateResponse_msg.classList.add('error');
+                                    $(updateResponse_msg).css({ 'margin': '15px auto 0' });
+                                    updateResponse_msg.innerHTML = response.message;
+                                }
+                            },
+                            error: function (jqXHR) {
+                                $('#response-animation').hide();
+                                $(updateUserBtn).show();
+                                updateResponse_msg.classList.add('error');
+                                $(updateResponse_msg).css({ 'margin': '15px auto 0' });
+
+                                let message = 'Something went wrong. Please try again.';
+
+                                if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+                                    message = jqXHR.responseJSON.message;
+                                }
+
+                                updateResponse_msg.innerHTML = message;
+                            }
+
+                        });
+                    }
+                });
+            }
+        });
+        // ---------------------update-validation-end-----------------------------
+    }
+
+    if(page_id === "user-list"){
+         $(document).ready(function () {
+
+            let projectlisturl = baseurl + "cms-admin/users";
+            initDynamicTable(projectlisturl, '#data-list', '#filterForm');
+
+            var userToDelete = null;
+
+            $(document).on('click', '.userDeleteBtn', function () {
+                userToDelete = $(this).data('id');
+                $('#modal-body').text('Are you sure you want to delete this User?');
+                $('#modal-body').removeClass('text-success text-danger');
+
+                $('#confirmDeleteModal').modal('show');
+            });
+
+
+            $('#confirm').click(function () {
+                if (userToDelete) {
+                    $.ajax({
+                        url: baseurl + 'cms-admin/users/' + userToDelete,
+                        method: 'DELETE',
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        success: function (response) {
+                            updateTableAfterAction(userToDelete, '#projectData-table');
+                            $('#confirmDeleteModal').modal('hide');
+                        },
+                        error: function (xhr) {
+                            let errorMessage = xhr.responseJSON?.message || 'Error occurred while deleting the User.';
+                            $('#modal-body').text(errorMessage).addClass('text-danger');
+                        }
+                    });
+                }
+            });
+        });
     }
 
     if (page_id === "forgot-password-page") {
@@ -1464,7 +1583,7 @@ if (page_id === "register-page") {
 
         }
 
-        if(page_id === "setting-page") {
+    if(page_id === "setting-page") {
             show_hide_password();
         // ---------------------change-email-username-start-----------------------------
         $(document).ready(function () {

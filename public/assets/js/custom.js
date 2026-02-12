@@ -82,7 +82,7 @@ if (page_id === "auction-list"){
         search: '#auction-search',
         state: '.state-checkbox',
         city: '.city-checkbox',
-        town: '.town-checkbox',
+        town: '.town-checkbox', 
         price_min: '#price_min',
         price_max: '#price_max',
         sqft_min: '#sqft_min',

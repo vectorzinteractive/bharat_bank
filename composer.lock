@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84ca50594ab0c1da342ac1ebdc163856",
+    "content-hash": "5acbf2dcf3ed038de4f6bb0e200816f6",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3901,6 +3901,89 @@
             "time": "2025-07-17T15:46:43+00:00"
         },
         {
+            "name": "spatie/laravel-permission",
+            "version": "6.24.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-permission.git",
+                "reference": "76adb1fc8d07c16a0721c35c4cc330b7a12598d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/76adb1fc8d07c16a0721c35c4cc330b7a12598d7",
+                "reference": "76adb1fc8d07c16a0721c35c4cc330b7a12598d7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/container": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/contracts": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/database": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "laravel/passport": "^11.0|^12.0",
+                "laravel/pint": "^1.0",
+                "orchestra/testbench": "^6.23|^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.4|^10.1|^11.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Permission\\PermissionServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-main": "6.x-dev",
+                    "dev-master": "6.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Spatie\\Permission\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Permission handling for Laravel 8.0 and up",
+            "homepage": "https://github.com/spatie/laravel-permission",
+            "keywords": [
+                "acl",
+                "laravel",
+                "permission",
+                "permissions",
+                "rbac",
+                "roles",
+                "security",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-permission/issues",
+                "source": "https://github.com/spatie/laravel-permission/tree/6.24.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-12-13T21:45:21+00:00"
+        },
+        {
             "name": "spatie/laravel-query-builder",
             "version": "6.3.6",
             "source": {
@@ -6519,6 +6602,148 @@
             "time": "2024-12-21T16:25:41+00:00"
         },
         {
+            "name": "vectorzinteractive/auction-module",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:vectorzinteractive/auction-module.git",
+                "reference": "67557cb70e75297d957672b2014f7e47d4d1651f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vectorzinteractive/auction-module/zipball/67557cb70e75297d957672b2014f7e47d4d1651f",
+                "reference": "67557cb70e75297d957672b2014f7e47d4d1651f",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "laravel-module",
+            "extra": {
+                "module-dir": "Modules",
+                "laravel": {
+                    "providers": [],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Auction\\": "app/",
+                    "Modules\\Auction\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Auction\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Modules\\Auction\\Tests\\": "tests/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "vectorzinteractive",
+                    "email": "vectorz.interactive@gmail.com"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/vectorzinteractive/auction-module/tree/main",
+                "issues": "https://github.com/vectorzinteractive/auction-module/issues"
+            },
+            "time": "2026-01-28T06:29:31+00:00"
+        },
+        {
+            "name": "vectorzinteractive/location-module",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:vectorzinteractive/location-module.git",
+                "reference": "0fc173b27812d1d0f7f1aa08c4f3e7989d63aabd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vectorzinteractive/location-module/zipball/0fc173b27812d1d0f7f1aa08c4f3e7989d63aabd",
+                "reference": "0fc173b27812d1d0f7f1aa08c4f3e7989d63aabd",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "laravel-module",
+            "extra": {
+                "module-dir": "Modules",
+                "laravel": {
+                    "providers": [],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Location\\": "app/",
+                    "Modules\\Location\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Location\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Modules\\Location\\Tests\\": "tests/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "vectorzinteractive",
+                    "email": "vectorz.interactive@gmail.com"
+                }
+            ],
+            "description": "laravel-module",
+            "support": {
+                "source": "https://github.com/vectorzinteractive/location-module/tree/main",
+                "issues": "https://github.com/vectorzinteractive/location-module/issues"
+            },
+            "time": "2026-01-28T06:50:30+00:00"
+        },
+        {
+            "name": "vectorzinteractive/unclaimeddeposit-module",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:vectorzinteractive/unclaimeddeposit-module.git",
+                "reference": "4835c2c81a1754b1f6d2340bebfe6671b1bbb6c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vectorzinteractive/unclaimeddeposit-module/zipball/4835c2c81a1754b1f6d2340bebfe6671b1bbb6c8",
+                "reference": "4835c2c81a1754b1f6d2340bebfe6671b1bbb6c8",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "laravel-module",
+            "extra": {
+                "module-dir": "Modules",
+                "laravel": {
+                    "providers": [],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\UnclaimedDeposit\\": "app/",
+                    "Modules\\UnclaimedDeposit\\Database\\Factories\\": "database/factories/",
+                    "Modules\\UnclaimedDeposit\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Modules\\UnclaimedDeposit\\Tests\\": "tests/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "vectorzinteractive",
+                    "email": "vectorz.interactive@gmail.com"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/vectorzinteractive/unclaimeddeposit-module/tree/main",
+                "issues": "https://github.com/vectorzinteractive/unclaimeddeposit-module/issues"
+            },
+            "time": "2026-01-28T07:01:14+00:00"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v5.6.2",
             "source": {
@@ -9098,7 +9323,11 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "vectorzinteractive/auction-module": 20,
+        "vectorzinteractive/location-module": 20,
+        "vectorzinteractive/unclaimeddeposit-module": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
